@@ -1,0 +1,18 @@
+{
+    "run_list": [ "role[master_node]", "role[compute_node]" ],
+    "mysql-root-password": "4D4B9D7E-3094-419C-9D8C-88F94E3D2801",
+    "mysql-nova-password": "AFBD6ED7-88DC-4DF0-BF91-52BBF0145059",
+    "admin-login-name": "Administrator",
+    "admin-login-email": "dev-cloud-admin@example.com",
+    "admin-login-password": "TopSecret",
+    "projects-interface": "eth2",
+    "project-networks": [
+        [1001, "10.0.101.0/24"],
+        [1002, "10.0.102.0/24"],
+        [1003, "10.0.103.0/24"]
+    ],
+    "master-ip-private": "10.0.100.1",
+    "master-ip-public": "10.0.80.1",
+    "keystone-magic-token": "6927CAD0-9FAA-4CD4-A882-FA1EEC1185AA",
+    "dns-zone": "dev-cloud.example.com"
+}

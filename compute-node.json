@@ -1,0 +1,7 @@
+{
+    "run_list": [ "role[compute_node]" ],
+    "mysql-nova-password": "AFBD6ED7-88DC-4DF0-BF91-52BBF0145059",
+    "keystone-magic-token": "6927CAD0-9FAA-4CD4-A882-FA1EEC1185AA",
+    "master-ip-private": "10.0.100.1",
+    "projects-interface": "eth2"
+}
