@@ -26,5 +26,8 @@ yum -y install ruby ruby-devel ruby-ri ruby-rdoc ruby-static rubygems make gcc
 log "install chef"
 gem install --no-rdoc --no-ri chef-solr
 
+log "install uuid"
+gem install --no-rdoc --no-ri uuid
+
 log "run cookbook"
 chef-solo -c solo.rb -j "$receipt"
