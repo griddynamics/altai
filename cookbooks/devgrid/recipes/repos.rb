@@ -8,7 +8,7 @@
 #
 
 case node["platform"]
-    when "centos", "redhat", "fedora" do
+    when "centos", "redhat", "fedora" 
 
         execute "add_epel_repository" do
             command "rpm -Uhv #{node[:epel][:rpm_url]}"

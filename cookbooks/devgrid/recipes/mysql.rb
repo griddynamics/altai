@@ -10,11 +10,16 @@
 
 log("Start to install mysql")
 
-%w(mysql-server mysql).each do |package_name|
-    package package_name do
-        action :install
-        options "--y"
-    end
+package "mysql-server" do
+    action :install
+end
+
+log("Apply config with binding address"){level :debug}
+template "/etc/my.cnf" do
+    source "my.cnf.erb"
+    mode 644
+    owner "root"
+    group "root"
 end
 
 log("Start mysql service"){level :debug}
