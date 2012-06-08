@@ -14,6 +14,13 @@ package "rabbitmq-server" do
     action :install
 end
 
+template "/etc/rabbitmq/rabbitmq-env.conf" do
+    source "rabbitmq-env.conf.erb"
+    mode 644
+    owner "root"
+    group "root"
+end
+
 service "rabbitmq-server" do
     action :start
 end
