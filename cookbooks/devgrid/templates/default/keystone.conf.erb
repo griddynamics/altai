@@ -48,7 +48,7 @@
 
 [sql]
 # The SQLAlchemy connection string used to connect to the database
-connection = mysql://keystone:<%= @mysql_keystone_password %>@<%= node[:ipaddress] %>/keystone?charset=utf8
+connection = mysql://keystone:<%= @mysql_keystone_password %>@<%= node["master-ip-private"] %>/keystone?charset=utf8
 
 # the timeout before idle sql connections are reaped
 # idle_timeout = 200

@@ -53,18 +53,19 @@ service "keystone" do
     action :start
 end
 
-log("Add services")
-
-[{:name => "nova", :type => "compute", :description => "OpenStack Compute Service"}
-{:name => "nova-volume", :type => "volume", :description => "OpenStack Nova Volume Service"}
-{:name => "glance", :type => "image", :description => "OpenStack Image Service"}
-{:name => "keystone", :type => "identity", :description => "OpenStack Identity Service"}
-{:name => "quantum", :type => "network", :description => "Openstack Network Service"}].each do |service|
-    execute "Create service #{service[:name]}" do
-        command "keystone service-create --name #{service[:name]} 
-                    --type #{service[:type]} --description '#{service[:description]}'"
-    end
-end
+# I've commented it because as I understand all services should be configured in catalog.template file
+#log("Add services")
+#
+#[{:name => "nova", :type => "compute", :description => "OpenStack Compute Service"}
+#{:name => "nova-volume", :type => "volume", :description => "OpenStack Nova Volume Service"}
+#{:name => "glance", :type => "image", :description => "OpenStack Image Service"}
+#{:name => "keystone", :type => "identity", :description => "OpenStack Identity Service"}
+#{:name => "quantum", :type => "network", :description => "Openstack Network Service"}].each do |service|
+#    execute "Create service #{service[:name]}" do
+#        command "keystone service-create --name #{service[:name]} 
+#                    --type #{service[:type]} --description '#{service[:description]}'"
+#    end
+#end
 
 log("Add roles")
 %w(admin member).each do |role|
