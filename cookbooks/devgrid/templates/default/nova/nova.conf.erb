@@ -1,0 +1,64 @@
+[DEFAULT]
+
+my_ip = <%= node["master-ip-public"] %>
+rabbit_host = <%= node["master-ip-private"] %>
+routing_source_ip = <%= node["master-ip-public"] %>
+state_path = /var/lib/nova
+auth_strategy = keystone
+node_availability_zone = nova
+
+sql_connection = mysql://nova:<%= node["mysql-nova-password"] %>@<%= node["master-ip-private"] %>/nova
+
+scheduler_driver = nova.scheduler.simple.SimpleScheduler
+image_service = nova.image.glance.GlanceImageService
+network_manager = nova.network.manager.VlanManager
+multi_host = true
+connection_type = libvirt
+
+# LOG
+logdir = /var/log/nova
+verbose = true
+debug = true
+logging_context_format_string = %(asctime)s %(name)s: %(levelname)s [%(request_id)s %(user_id)s %(project_id)s] %(message)s
+logging_default_format_string = %(asctime)s %(name)s: %(message)s
+logging_debug_format_suffix = 
+
+# NETWORK
+dhcpbridge_flagfile = /etc/nova/nova.conf
+dhcpbridge = /usr/bin/nova-dhcpbridge
+public_interface = eth1
+vlan_interface = eth1
+
+
+# COMPUTE
+libvirt_type = kvm
+libvirt_use_virtio_for_bridges = true
+resume_guests_state_on_host_boot = true
+libvirt_inject_password = true
+libvirt_xml_template = /usr/share/nova/libvirt.xml.template
+injected_network_template = /usr/share/nova/interfaces.template
+libvirt_inject_password = true
+# true by default
+use_cow_images = true
+# by default the same as source image
+snapshot_image_format = qcow2
+libvirt_snapshot_dir=/var/lib/nova/images/tmp
+
+# VNC
+vnc_enabled = true
+novncproxy_base_url = http://<%= node["master-ip-public"] %>:6080/vnc_auto.html
+xvpvncproxy_base_url = http://<%= node["master-ip-public"] %>:6081/console
+vncserver_proxyclient_address = <%= node["master-ip-public"] %> 
+vncserver_listen = 0.0.0.0
+
+# MISC
+lock_path = /var/lock/nova
+keystone_ec2_url = http://<%= node["master-ip-public"] %>:5000/v2.0/ec2tokens
+api_rate_limit = false
+root_helper = sudo nova-rootwrap
+max_cores = 320
+volume_group = nova_lvm
+vpn_client_template = /usr/share/nova/client.ovpn.template
+credentials_template = /usr/share/nova/novarc.template
+iscsi_helper = tgtadm
+

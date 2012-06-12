@@ -1,5 +1,6 @@
 #!/bin/bash
 
+DIR=$(readlink -f $(dirname $0))
 
 function usage() {
     echo "Usage:   $0  master"
@@ -14,8 +15,19 @@ if [[ $# -ne 1 || ("$1" != 'master' && "$1" != 'compute') ]]; then
 fi
 
 receipt="${1}_node.json"
+cat  >$DIR/solo.rb <<EOF
+file_cache_path "$DIR"
+cookbook_path "$DIR/cookbooks"
+role_path "$DIR/roles"
+EOF
+
+(cd $DIR
+GIT=$(git log HEAD | head -n1 | awk '{print $2}')
+echo "DevGrig ${1} ($GIT)" > /etc/devgrid-release 
+)
+
 #exec &> >(tee -a install.log)
-exec > install.log
+exec > $DIR/install.log
 log "* update system"
 #yum clean all
 #yum -y update
@@ -31,3 +43,5 @@ gem install --no-rdoc --no-ri uuid
 
 log "run cookbook"
 chef-solo -c solo.rb -j "$receipt"
+
+

@@ -5,5 +5,15 @@
     "json_class": "Chef::Role",
     "description": "DevGrid Master Server Role",
     "chef_type": "role",
-    "run_list": []
+    "run_list": [
+	"devgrid::repos", 
+	"devgrid::rabbit", 
+	"devgrid::mysql", 
+	"devgrid::keystone", 
+	"devgrid::glance", 
+	"devgrid::nova_api", 
+	"devgrid::odb", 
+	"devgrid::nova_billing", 
+	"devgrid::focus" 
+    ]
 }

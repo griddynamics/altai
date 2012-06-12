@@ -16,7 +16,8 @@ case node["platform"]
                 File.exists?("/etc/yum.repos.d/epel.repo") 
             end
         end
-
+	
+	#TODO add gpg_check
         template "/etc/yum.repos.d/gd-openstack.repo" do
             source "gd-openstack.erb"
             mode 644

@@ -12,7 +12,7 @@ require "uuid"
 
 log("Start to install keystone")
 node.set["mysql-keystone-password"] = UUID.new().generate()
-node.set["keystone-admin-password"] = UUID.new().generate()
+node.save()
 
 package "openstack-keystone-essex" do
     action :install
@@ -28,17 +28,14 @@ end
 
 
 template "/etc/keystone/keystone.conf" do
-    source "keystone.conf.erb"
+    source "keystone/keystone.conf.erb"
     mode 644
     owner "root"
     group "root"
-    variables({
-        :mysql_keystone_password => node["mysql_keystone_password"]
-    })
 end
 
 template "/etc/keystone/catalog.templates" do
-    source "catalog.templates.erb"
+    source "keystone/catalog.templates.erb"
     mode 644
     owner "root"
     group "root"
@@ -76,17 +73,17 @@ end
 
 log("Add admin tenant")
 execute "Add admin tenant" do
-    command "keystone tenant-create --name=admin"
+    command "keystone tenant-create --name=systenant"
 end
 
 log("Add admin user")
 execute "Add admin user" do
-    command "keystone user-create --name=admin --tenant_id=admin --pass='#{node["keystone-admin-password"]}' 
+    command "keystone user-create --name='#{node["admin-login-name"]}' --tenant_id=systenant 
+		--pass='#{node["admin-login-password"]}' 
                 --email='#{node["admin-login-email"]}' --enabled true"
 end
 execute "Assign admin role" do
-    command "keystone user-role-add --user=admin --role=admin --tenant_id=admin"
+    command "keystone user-role-add --user='#{node["admin-login-name"]}' --role=admin --tenant_id=systenant"
 end
 
-node.save()
 log("Keystone was succesfully installed")
