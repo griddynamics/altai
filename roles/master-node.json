@@ -11,7 +11,7 @@
 	"devgrid::mysql", 
 	"devgrid::keystone", 
 	"devgrid::glance", 
-	"devgrid::nova_api", 
+	"devgrid::nova", 
 	"devgrid::odb", 
 	"devgrid::nova_billing", 
 	"devgrid::focus" 

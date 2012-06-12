@@ -14,7 +14,7 @@ if [[ $# -ne 1 || ("$1" != 'master' && "$1" != 'compute') ]]; then
     usage
 fi
 
-receipt="${1}_node.json"
+receipt="${1}-node.json"
 cat  >$DIR/solo.rb <<EOF
 file_cache_path "$DIR"
 cookbook_path "$DIR/cookbooks"

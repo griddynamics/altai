@@ -10,8 +10,10 @@
 
 log("Start to install mysql")
 
-package "mysql-server" do
-    action :install
+%w( mysql-server MySQL-python ).each do |package_name|
+    package package_name do 
+	action :install
+    end
 end
 
 log("Apply config with binding address"){level :debug}

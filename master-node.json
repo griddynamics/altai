@@ -1,5 +1,5 @@
 {
-    "run_list": [ "role[master_node]" ],
+    "run_list": [ "role[master-node]" ],
     "mysql-root-password": "4D4B9D7E-3094-419C-9D8C-88F94E3D2801",
     "mysql-nova-password": "AFBD6ED7-88DC-4DF0-BF91-52BBF0145059",
     "admin-login-name": "admin",
