@@ -12,10 +12,12 @@ require "uuid"
 
 log("Start to install keystone")
 node.set["mysql-keystone-password"] = UUID.new().generate()
-node.save()
+node.set["keystone-magic-token"] = UUID.new().generate()
 
-package "openstack-keystone-essex" do
-    action :install
+%w(openstack-keystone-essex python-keystoneclient-essex).each do |package_name|
+    package package_name do 
+        action :install
+    end
 end
 
 mysql_create_database "keystone" do
@@ -50,6 +52,10 @@ service "keystone" do
     action :start
 end
 
+execute "sync_keystone" do
+    command "sleep 1"
+end
+
 # I've commented it because as I understand all services should be configured in catalog.template file
 #log("Add services")
 #
@@ -67,23 +73,21 @@ end
 log("Add roles")
 %w(admin member).each do |role|
     execute "Add role #{role}" do
-        command "keystone role-create --name=#{role}"
+        command "keystone --token=#{node["keystone-magic-token"]} --endpoint http://localhost:35357/v2.0 --os_username=1 --os_password=1 role-create --name=#{role}"
     end
 end
 
 log("Add admin tenant")
 execute "Add admin tenant" do
-    command "keystone tenant-create --name=systenant"
+    command "keystone  --token=#{node["keystone-magic-token"]} --endpoint http://localhost:35357/v2.0 --os_username=1 --os_password=1 tenant-create --name=systenant"
 end
 
 log("Add admin user")
 execute "Add admin user" do
-    command "keystone user-create --name='#{node["admin-login-name"]}' --tenant_id=systenant 
-		--pass='#{node["admin-login-password"]}' 
-                --email='#{node["admin-login-email"]}' --enabled true"
+    command "keystone  --token=#{node["keystone-magic-token"]} --endpoint http://localhost:35357/v2.0 --os_username=1 --os_password=1 user-create --name='#{node["admin-login-name"]}' --tenant_id=systenant --pass='#{node["admin-login-password"]}' --email='#{node["admin-login-email"]}' --enabled true"
 end
 execute "Assign admin role" do
-    command "keystone user-role-add --user='#{node["admin-login-name"]}' --role=admin --tenant_id=systenant"
+    command "keystone  --token=#{node["keystone-magic-token"]} --endpoint http://localhost:35357/v2.0 --os_username=1 --os_password=1 user-role-add --user='#{node["admin-login-name"]}' --role=admin --tenant_name=systenant"
 end
 
 log("Keystone was succesfully installed")

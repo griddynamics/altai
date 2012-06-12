@@ -11,7 +11,7 @@ log_file = /var/log/keystone/keystone.log
 use_syslog = False
 
 [sql]
-connection = mysql://keystone:<%= node["mysql_keystone_password"] %>@<%= node["master-ip-private"] %>/keystone?charset=utf8
+connection = mysql://keystone:<%= node["mysql-keystone-password"] %>@<%= node["master-ip-private"] %>/keystone?charset=utf8
 idle_timeout = 200
 
 [ldap]

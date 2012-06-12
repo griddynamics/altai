@@ -12,7 +12,6 @@ require "uuid"
 
 log("Start to install glance")
 node.set["mysql-glance-password"] = UUID.new().generate()
-node.save()
 
 package 'openstack-glance-essex' do
     action :install
