@@ -32,8 +32,8 @@ template "/etc/glance/glance-api.conf" do
     owner "glance"
     group "nobody"
 end
-template "/etc/glance/glance-api-paste.conf" do
-    source "glance/glance-api-paste.conf.erb"
+template "/etc/glance/glance-api-paste.ini" do
+    source "glance/glance-api-paste.ini.erb"
     mode 644
     owner "glance"
     group "nobody"
