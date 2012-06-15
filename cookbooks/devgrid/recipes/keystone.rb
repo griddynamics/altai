@@ -65,17 +65,15 @@ bash "Add admin tenant, user and role" do
 	'EMAIL' => node["admin-login-email"] })
     code <<-EOH
     function get_id () { echo `$@ | awk '/ id / { print $4 }'`; }
-    echo "$KCMD, $LOGIN, $PASSWD"
     ADMIN_ROLE=`get_id $KCMD role-create --name admin`
-    echo "Admin role: $ADMIN"
+    echo "Admin role: $ADMIN_ROLE"
     MEMBER_ROLE=`get_id $KCMD role-create --name member`
-    echo "Member role: $MEMBER"
+    echo "Member role: $MEMBER_ROLE"
     TENANT=`get_id $KCMD tenant-create --name=systenant`
     echo "Tenant id: $TENANT"
-    ADMIN=`get_id $KCMD user-create --name="$LOGIN" --tenant_id=systenant --pass='$PASSWD' --email='$EMAIL' --enabled true`
+    ADMIN=`get_id $KCMD user-create --name="$LOGIN" --tenant_id="$TENANT" --pass="$PASSWD" --email="$EMAIL" --enabled true`
     echo "admin id: $ADMIN"
     $KCMD user-role-add --user="$ADMIN" --role="$ADMIN_ROLE" --tenant_id="$TENANT"
-    echo 5
     EOH
 end
 
