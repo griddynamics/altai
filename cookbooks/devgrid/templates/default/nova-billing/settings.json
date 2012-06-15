@@ -1,0 +1,21 @@
+{
+    "control_exchange": "nova", 
+    "heart_db_uri": "mysql://billing:<%= node["mysql-billing-password"] %>@<%= node['master-ip-private'] %>/billing",
+    "host": "0.0.0.0", 
+    "keystone_conf": {
+        "auth_uri": "http://<%= node["master-ip-public"] %>:5000/", 
+        "password": "<%= node["admin-login-password"] %>", 
+        "tenant_name": "systenant", 
+        "username": "<%= node["admin-login-name"] %>"
+    }, 
+    "log_dir": "/var/log/nova-billing", 
+    "log_format": "%(asctime)-15s:nova-billing:%(levelname)s:%(name)s:%(message)s", 
+    "log_level": "DEBUG", 
+    "port": 8787, 
+    "rabbit_durable_queues": false, 
+    "rabbit_host": "<%= node['master-ip-private'] %>", 
+    "rabbit_password": "guest", 
+    "rabbit_port": 5672, 
+    "rabbit_userid": "guest", 
+    "rabbit_virtual_host": "/"
+}
