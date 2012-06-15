@@ -1,0 +1,25 @@
+RELATIVE_TO_API_HOURS_SHIFT = 1
+DEBUG = True
+
+UPLOADS_DEFAULT_DEST = '/var/tmp/focus-uploads/'
+
+
+RO_DATABASE_URI = 'mysql://keystone:<%= node["mysql-keystone-password"] %>@<%= node["master-ip-private"] %>/keystone'
+RW_DATABASE_URI = 'mysql://keystone:<%= node["mysql-keystone-password"] %>@<%= node["master-ip-private"] %>/keystone'
+INVITATIONS_DATABASE_URI = 'mysql://nova:<%= node["mysql-focus-password"] %>@<%= node["master-ip-private"] %>/focus-invitations'
+NOVA_RO_DATABASE_URI = 'mysql://nova:<%= node["mysql-nova-password"] %>@<%= node["master-ip-private"] %>/nova'
+NOVA_RW_DATABASE_URI = 'mysql://nova:<%= node["mysql-nova-password"] %>@<%= node["master-ip-private"] %>/nova'
+NEO4J_API_URL = 'http://<%= node["master-ip-private"] %>:3635/v1'
+
+
+KEYSTONE_CONF = {
+    'auth_uri': 'http://<%= node["master-ip-private"] %>:5000/v2.0/',
+    'admin_tenant_name': 'systenant',
+    'admin_user': '<%= node["admin-login-name"] %>',
+    'admin_password': '<%= node["admin-login-password"] %>',
+    'admin_tenant_id': '1'
+}
+DEFAULT_TENANT_ID = KEYSTONE_CONF['admin_tenant_id']
+
+MAIL_SERVER = '<%= node["mail-server"] %>'
+MAIL_PORT = 25
