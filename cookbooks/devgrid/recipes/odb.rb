@@ -14,8 +14,8 @@ package "odb" do
 end
 
 log("Apply config with binding address"){level :debug}
-template "/etc/ironcloud.conf" do
-    source "ironcloud.conf.erb"
+template "/etc/odb.conf" do
+    source "odb.conf.erb"
     mode 644
     owner "root"
     group "root"
