@@ -12,21 +12,17 @@ log("Start to install focus")
 
 node.set["mysql-focus-password"] = UUID.new().generate()
 
-package "python-focus" do
-    action :install
-end
+package "python-focus" 
 
 mysql_create_database "focus" do
-end
-
-mysql_add_grants_for_user "focus" do
-    database :focus
+    user :focus
     password node["mysql-focus-password"]
 end
 
+#TODO check required perms
 template "/etc/focus/local_settings.py" do
     source "focus/local_settings.py.erb"
-    mode 644
+    mode 00644
     owner "root"
     group "root"
 end
@@ -37,10 +33,7 @@ end
 
 log("Start services"){level :debug}
 service "focus" do
-    action [:enable, :start]
+    action [:enable, :restart]
 end
 
 log("focus was succesfully installed")
-
-
-

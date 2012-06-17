@@ -19,9 +19,20 @@ end
 log("Apply config with binding address"){level :debug}
 template "/etc/my.cnf" do
     source "my.cnf.erb"
-    mode 644
+    mode 00644
     owner "root"
     group "root"
+end
+
+log("Setup root user"){level :debug}
+bash "setup_root_password" do
+    environment ( {'PASSWD' => node["mysql-root-password"]} )
+    code <<-EOH
+    service mysqld stop
+    mysqld_safe --skip-grant-tables --skip-networking &
+    mysql -u root -e "UPDATE mysql.user SET Password=PASSWORD('$PASSWD') WHERE User='root'"
+    kill %1
+    EOH
 end
 
 log("Start mysql service"){level :debug}
@@ -29,11 +40,4 @@ service "mysqld" do
     action :start
 end
 
-log("Setup root user"){level :debug}
-execute "setup_root_password" do
-    command "mysqladmin -u root password '#{node["mysql-root-password"]}'"
-end
 log("Mysql was succesfully installed")
-
-
-

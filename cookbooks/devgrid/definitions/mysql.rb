@@ -7,17 +7,19 @@
 # All rights reserved - Do Not Redistribute
 #
 
-define :mysql_add_grants_for_user do
-  execute "add_mysql_grants" do
-    command "mysql -uroot -p#{node["mysql-root-password"]} -e \"GRANT ALL ON #{params[:database]}.* TO '#{params[:name]}'@'%' IDENTIFIED BY '#{params[:password]}'\""
-  end
-  execute "add_mysql_grants at localhost" do
-    command "mysql -uroot -p#{node["mysql-root-password"]} -e \"GRANT ALL ON #{params[:database]}.* TO '#{params[:name]}'@'localhost' IDENTIFIED BY '#{params[:password]}'\""
-  end
-end
-
 define :mysql_create_database do
-  execute "mysql_create_database" do
-    command "mysql -uroot -p#{node["mysql-root-password"]} -e \"CREATE DATABASE #{params[:name]} CHARACTER SET UTF8;\""
-  end
+  bash "create database and grant" do
+    environment ( {
+	'ROOT' => node["mysql-root-password"],
+	'DB' => params[:name],
+	'USER' => params[:user],
+	'PASSWD' => params[:passwd]
+    })
+    code <<-EOH
+	mysql -uroot -p"$ROOT" -e "
+	    DROP DATABASE IF EXISTS $DB;
+	    CREATE DATABASE $DB;
+	    GRANT ALL ON $DB.* TO 'USER'@'%' IDENTIFIED BY '$PASSWD';
+	    GRANT ALL ON $DB.* TO 'USER'@'localhost' IDENTIFIED BY '$PASSWD'"
+    EOH
 end

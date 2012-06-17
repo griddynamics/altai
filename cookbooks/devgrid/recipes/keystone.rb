@@ -13,34 +13,28 @@ require "uuid"
 log("Start to install keystone")
 node.set["mysql-keystone-password"] = UUID.new().generate()
 node.set["keystone-magic-token"] = UUID.new().generate()
-keystone_cmd = "keystone  --token=#{node["keystone-magic-token"]} --endpoint http://localhost:35357/v2.0"
 %w(openstack-keystone-essex python-keystoneclient-essex).each do |package_name|
-    package package_name do 
-        action :install
-    end
+    package package_name  
 end
 
 mysql_create_database "keystone" do
-end
-
-mysql_add_grants_for_user "keystone" do
-    database :keystone
+    user :keystone
     password node["mysql-keystone-password"]
 end
 
 
 template "/etc/keystone/keystone.conf" do
     source "keystone/keystone.conf.erb"
-    mode 644
-    owner "root"
-    group "root"
+    mode 00600
+    owner "keystone"
+    group "nobody"
 end
 
 template "/etc/keystone/catalog.templates" do
     source "keystone/catalog.templates.erb"
-    mode 644
-    owner "root"
-    group "root"
+    mode 00600
+    owner "keystone"
+    group "nobody"
 end
 
 
@@ -49,20 +43,18 @@ execute "sync_keystone_database" do
 end
 
 service "keystone" do
-    action :start
-end
-
-execute "sync_keystone" do
-    command "sleep 2"
+    action :restart
 end
 
 log("Add admin, tenant and role")
 bash "Add admin tenant, user and role" do
     environment ( {
-	'KCMD' => keystone_cmd, 
+	'KCMD' => "keystone  --token=#{node["keystone-magic-token"]} --endpoint http://localhost:35357/v2.0",
 	'LOGIN' => node["admin-login-name"],
 	'PASSWD' => node["admin-login-password"],
 	'EMAIL' => node["admin-login-email"] })
+    retries 2
+    retry_delay 1
     code <<-EOH
     function get_id () { echo `$@ | awk '/ id / { print $4 }'`; }
     ADMIN_ROLE=`get_id $KCMD role-create --name admin`

@@ -13,41 +13,36 @@ require "uuid"
 log("Start to install glance")
 node.set["mysql-glance-password"] = UUID.new().generate()
 
-package 'openstack-glance-essex' do
-    action :install
-end
+package 'openstack-glance-essex'
 
 mysql_create_database "glance" do
-end
-
-mysql_add_grants_for_user "glance" do
-    database :glance
+    user :glance
     password node["mysql-glance-password"]
 end
 
 
 template "/etc/glance/glance-api.conf" do
     source "glance/glance-api.conf.erb"
-    mode 644
+    mode 00600
     owner "glance"
     group "nobody"
 end
 template "/etc/glance/glance-api-paste.ini" do
     source "glance/glance-api-paste.ini.erb"
-    mode 644
+    mode 00600
     owner "glance"
     group "nobody"
 end
 
 template "/etc/glance/glance-registry.conf" do
     source "glance/glance-registry.conf.erb"
-    mode 644
+    mode 00600
     owner "glance"
     group "nobody"
 end
 template "/etc/glance/glance-registry-paste.ini" do
     source "glance/glance-registry-paste.ini.erb"
-    mode 644
+    mode 00600
     owner "glance"
     group "nobody"
 end
@@ -55,7 +50,7 @@ end
 
 %w(glance-api glance-registry).each do |service|
     service service do
-	action :start
+	action :restart
     end
 end
 

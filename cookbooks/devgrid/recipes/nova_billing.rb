@@ -11,21 +11,17 @@
 log("Start to install nova-billing")
 node.set["mysql-billing-password"] = UUID.new().generate()
 
-package "nova-billing" do
-    action :install
-end
+package "nova-billing"
 
 mysql_create_database "billing" do
-end
-
-mysql_add_grants_for_user "billing" do
-    database :billing
+    user :billing
     password node["mysql-billing-password"]
 end
 
+#TODO check correct perms
 template "/etc/nova-billing/settings.json" do
     source "nova-billing/settings.json.erb"
-    mode 644
+    mode 00644
     owner "root"
     group "root"
 end
@@ -33,7 +29,7 @@ end
 log("Start services"){level :debug}
 %w( nova-billing-heart nova-billing-os-amqp).each do |service|
     service service do
-        action [:enable, :start]
+        action [:enable, :restart]
     end
 end
 

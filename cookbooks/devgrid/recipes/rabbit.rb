@@ -10,19 +10,18 @@
 
 log("Start to install rabbitmq")
 
-package "rabbitmq-server" do
-    action :install
-end
+package "rabbitmq-server"
 
+#TODO check correct perms
 template "/etc/rabbitmq/rabbitmq-env.conf" do
     source "rabbitmq-env.conf.erb"
-    mode 644
+    mode 00644
     owner "root"
     group "root"
 end
 
 service "rabbitmq-server" do
-    action :start
+    action :restart
 end
 
 log("Rabbitmq was succesfully installed")

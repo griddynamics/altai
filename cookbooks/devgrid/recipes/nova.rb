@@ -22,30 +22,25 @@ log("Start to install nova-openstack")
     openstack-nova-essex-volume
     openstack-nova-essex-xvpvncproxy
     python-novaclient-essex ntp).each do |package_name|
-    package package_name do
-	action :install
-    end
+    package package_name 
 end
 
 mysql_create_database "nova" do
-end
-
-mysql_add_grants_for_user "nova" do
-    database :nova
+    user :nova
     password node["mysql-nova-password"]
 end
 
 
 template "/etc/nova/nova.conf" do
     source "nova/nova.conf.erb"
-    mode 644
+    mode 00600
     owner "nova"
     group "nobody"
 end
 
 template "/etc/nova/api-paste.ini" do
     source "nova/api-paste.ini.erb"
-    mode 644
+    mode 00600
     owner "nova"
     group "nobody"
 end
@@ -58,11 +53,8 @@ end
 %w(ntpd messagebus libvirtd nova-api nova-network nova-scheduler 
    nova-objectstore nova-xvpvncproxy).each do |service|
     service service do
-	action [:enable, :start]
+	action [:enable, :restart]
     end
 end
-
-#TODO ntpd server on CC and client on compute thru private ip
-#TODO add network
 
 log("nova was succesfully installed")
