@@ -5,5 +5,8 @@
     "json_class": "Chef::Role",
     "description": "DevGrid Compute Server Role",
     "chef_type": "role",
-    "run_list": []
+    "run_list": [
+	"devgrid::repo", 
+	"devgrid::compute"
+    ]
 }
