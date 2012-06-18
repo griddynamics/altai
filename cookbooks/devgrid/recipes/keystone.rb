@@ -53,10 +53,9 @@ bash "Add admin tenant, user and role" do
 	'LOGIN' => node["admin-login-name"],
 	'PASSWD' => node["admin-login-password"],
 	'EMAIL' => node["admin-login-email"] })
-    retries 2
-    retry_delay 1
     code <<-EOH
     function get_id () { echo `$@ | awk '/ id / { print $4 }'`; }
+    sleep 2
     ADMIN_ROLE=`get_id $KCMD role-create --name admin`
     echo "Admin role: $ADMIN_ROLE"
     MEMBER_ROLE=`get_id $KCMD role-create --name member`

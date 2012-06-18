@@ -50,8 +50,8 @@ execute "db sync" do
     command "nova-manage db sync"
 end
 
-%w(ntpd messagebus libvirtd nova-api nova-network nova-scheduler 
-   nova-objectstore nova-xvpvncproxy).each do |service|
+%w(ntpd nova-api nova-network nova-scheduler nova-objectstore 
+    nova-xvpvncproxy).each do |service|
     service service do
 	action [:enable, :restart]
     end
