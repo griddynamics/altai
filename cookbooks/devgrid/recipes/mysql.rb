@@ -30,8 +30,10 @@ bash "setup_root_password" do
     code <<-EOH
     service mysqld stop
     mysqld_safe --skip-grant-tables --skip-networking &
+    sleep 1
     mysql -u root -e "UPDATE mysql.user SET Password=PASSWORD('$PASSWD') WHERE User='root'"
-    kill %1
+    kill `cat /var/run/mysqld/mysqld.pid`
+    wait
     EOH
 end
 
