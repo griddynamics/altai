@@ -9,8 +9,8 @@
 
 
 log("Start to install odb")
-package "odb" do
-    action :install
+%w( java-1.6.0-openjdk odb ).each do |odb_pkg| 
+    package odb_pkg
 end
 
 
@@ -24,9 +24,12 @@ template "/etc/odb.conf" do
 end
 
 #TODO rewrite odb's start script to report $? !=0 on failure
+#TODO odb return exit success 1 on stop if failure, but 0 on stop if
+#failure - :restart ection is dangerous
 log("Start odb service"){level :debug}
 service "odb" do
     action :restart
+    ignore_failure true
 end
 
 log("Odb was succesfully installed")

@@ -11,8 +11,6 @@ require "uuid"
 
 
 log("Start to install nova")
-node.set["mysql-nova-password"] = UUID.new().generate()
-
 log("Start to install nova-openstack")
 
 %w( openstack-nova-essex-api 

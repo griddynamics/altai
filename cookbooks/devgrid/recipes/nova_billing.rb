@@ -30,6 +30,7 @@ log("Start services"){level :debug}
 %w( nova-billing-heart nova-billing-os-amqp).each do |service|
     service service do
         action [:enable, :restart]
+	ignore_failure true
     end
 end
 
