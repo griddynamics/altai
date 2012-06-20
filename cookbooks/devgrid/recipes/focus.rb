@@ -12,6 +12,7 @@ log("Start to install focus")
 
 node.set["mysql-focus-password"] = UUID.new().generate()
 
+package "memcached"
 package "python-focus" 
 
 mysql_create_database "focus" do
@@ -32,6 +33,9 @@ execute "upload db" do
 end
 
 log("Start services"){level :debug}
+service "memcached" do 
+    action [:enable, :restart]
+end
 service "focus" do
     action [:enable, :restart]
 end

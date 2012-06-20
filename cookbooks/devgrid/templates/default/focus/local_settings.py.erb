@@ -1,7 +1,8 @@
-RELATIVE_TO_API_HOURS_SHIFT = 1
+RELATIVE_TO_API_HOURS_SHIFT = 0
 DEBUG = True
 
 UPLOADS_DEFAULT_DEST = '/var/tmp/focus-uploads/'
+DEFAULT_APP_PORT = 8080
 
 
 RO_DATABASE_URI = 'mysql://keystone:<%= node["mysql-keystone-password"] %>@<%= node["master-ip-private"] %>/keystone'
