@@ -1,6 +1,6 @@
-maintainer       "YOUR_COMPANY_NAME"
-maintainer_email "YOUR_EMAIL"
-license          "All rights reserved"
-description      "Installs/Configures devgrid"
+maintainer       "Grid Dynamics Intl"
+maintainer_email "openstack@griddynamics.com"
+license          "LGPL-2.1"
+description      ""
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.0.1"
+version          "0.1"
