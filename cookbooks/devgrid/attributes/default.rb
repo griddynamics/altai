@@ -8,4 +8,4 @@
 #
 
 default[:epel][:rpm_url] = "http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-7.noarch.rpm"
-default[:gd_openstack][:url] = "http://yum.griddynamics.net/yum/essex-centos/"
+default[:gd_openstack][:url] = "http://yum.griddynamics.net/yum/altai_v0.1_centos/"
