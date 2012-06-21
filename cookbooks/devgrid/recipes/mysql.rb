@@ -36,16 +36,13 @@ bash "setup_root_password" do
     code <<-EOH
     service mysqld stop
     mysqld_safe --skip-grant-tables --skip-networking &
+    pid=$!
     sleep 1
     mysql -u root -e "UPDATE mysql.user SET Password=PASSWORD('$PASSWD') WHERE User='root'"
     kill `cat /var/run/mysqld/mysqld.pid`
-    wait
+    wait $pid
+    service mysqld start
     EOH
-end
-
-log("Start mysql service"){level :debug}
-service "mysqld" do
-    action :start
 end
 
 log("Mysql was succesfully installed")
