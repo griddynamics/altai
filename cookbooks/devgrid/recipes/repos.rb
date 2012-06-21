@@ -23,17 +23,13 @@ case node["platform"]
             end
         end
 	
-	#TODO add gpg_check
-        template "/etc/yum.repos.d/gd-openstack.repo" do
-            source "gd-openstack.erb"
-            mode 00644
-            owner "root"
-            group "root"
+        execute "add_altai_repository" do
+            command "rpm -Uhv #{node[:altai][:rpm_url]}"
             not_if do
-                File.exists?("/etc/yum.repos.d/gd-openstack.repo")
+                File.exists?("/etc/yum.repos.d/altai.repo") 
             end
         end
-
+	
 	execute "rebuild yum cache" do 
 	    command "yum -q makecache"
 	end

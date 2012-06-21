@@ -15,4 +15,4 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 default[:epel][:rpm_url] = "http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-7.noarch.rpm"
-default[:gd_openstack][:url] = "http://yum.griddynamics.net/yum/altai_v0.1_centos/"
+default[:altai][:rpm_url] = "http://yum.griddynamics.net/yum/altai_v0.1_centos/altai-release-0.1-0.el6.noarch.rpm"
