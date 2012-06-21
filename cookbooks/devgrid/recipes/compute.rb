@@ -29,9 +29,6 @@ template "/etc/nova/nova.conf" do
     mode 00600
     owner "nova"
     group "nobody"
-    not_if do 
-	File.exists?("/etc/nova/api-paste.ini")
-    end
 end
 
 

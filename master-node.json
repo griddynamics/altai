@@ -6,11 +6,6 @@
     "admin-login-email": "dev-cloud-admin@example.com",
     "admin-login-password": "secrete",
     "projects-interface": "eth0",
-    "project-networks": [
-        [1001, "10.0.101.0/24"],
-        [1002, "10.0.102.0/24"],
-        [1003, "10.0.103.0/24"]
-    ],
     "master-ip-private": "127.0.0.1",
     "master-ip-public": "10.0.2.15",
     "dns-zone": "dev-cloud.example.com"

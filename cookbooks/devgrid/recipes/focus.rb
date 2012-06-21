@@ -38,6 +38,31 @@ execute "upload db" do
     command "mysql -u focus -p#{node['mysql-focus-password']} focus < /etc/focus/invitations_dump.sql"
 end
 
+python "grant access for admin user in ODB" do 
+    environment ({
+	"USER"	    => node["admin-login-name"],
+	"PASSWD"    => node["admin-login-password"],
+	"EMAIL"	    => node["admin-login-email"],
+	"IP" => node["master-ip-private"] })
+    code <-EOH
+from os import environ as env
+import hashlib, base64, requests, json
+    
+m = hashlib.md5()
+m.update(env["PASSWD"])
+p = "{MD5}%s" % base64.standard_b64encode(m.digest())
+response = requests.post(
+    'http://%s:3536/v1/users' % (env["IP"]), 
+    data=json.dumps(dict(login="", email=env["EMAIL"], username=env["USER"], passwordHash=p)),
+    headers={'Content-Type': 'application/json'})
+if response.status_code > 300 or response.status_code < 200:
+    raise Exception("ODB return status code %s" % (response.status_code))
+EOH
+end
+    
+
+
+
 log("Start services"){level :debug}
 service "memcached" do 
     action [:enable, :restart]

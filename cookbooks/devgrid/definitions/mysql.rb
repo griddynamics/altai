@@ -15,7 +15,7 @@
 
 define :mysql_create_database do
   bash "create database and grant" do
-    environment ( {
+    environment ({
 	'ROOT' => node["mysql-root-password"],
 	'DB' => params[:name],
 	#FIXME this line produce stupid error in ruby code
