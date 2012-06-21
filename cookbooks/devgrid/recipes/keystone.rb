@@ -69,6 +69,8 @@ bash "Add admin tenant, user and role" do
     echo "Member role: $MEMBER_ROLE"
     TENANT=`get_id $KCMD tenant-create --name=systenant`
     echo "Tenant id: $TENANT"
+    # will be used later in focus receipt
+    echo "$TENANT" > /tmp/systenant.id
     ADMIN=`get_id $KCMD user-create --name="$LOGIN" --tenant_id="$TENANT" --pass="$PASSWD" --email="$EMAIL" --enabled true`
     echo "admin id: $ADMIN"
     $KCMD user-role-add --user="$ADMIN" --role="$ADMIN_ROLE" --tenant_id="$TENANT"

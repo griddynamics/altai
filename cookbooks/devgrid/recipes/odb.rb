@@ -31,12 +31,17 @@ end
 
 #TODO rewrite odb's start script to report $? !=0 on failure
 #TODO odb return exit success 1 on stop if failure, but 0 on stop if
-#failure - :restart ection is dangerous
+#TODO add db cleanup and service restart
 log("Start odb service"){level :debug}
-service "odb" do
-    action :restart
-    ignore_failure true
+##TODO this not works - chef logging "service start" and do nothing
+#service "odb" do 
+#    action :start
+#end
+#TODO this works :) 
+execute "start odb service" do 
+    command "service odb start"
 end
+
 
 log("Odb was succesfully installed")
 

@@ -44,7 +44,7 @@ python "grant access for admin user in ODB" do
 	"PASSWD"    => node["admin-login-password"],
 	"EMAIL"	    => node["admin-login-email"],
 	"IP" => node["master-ip-private"] })
-    code <-EOH
+    code <<-EOH
 from os import environ as env
 import hashlib, base64, requests, json
     
@@ -59,9 +59,15 @@ if response.status_code > 300 or response.status_code < 200:
     raise Exception("ODB return status code %s" % (response.status_code))
 EOH
 end
-    
 
-
+bash "update tenant_id in config file with real id" do
+    code <<-EOH
+    TENANT_ID=`cat /tmp/systenant.id`
+    echo "Systenant id: $TENANT_ID"
+    rm /tmp/sysenant.id
+    perl -i -pe 's/@~TENANT_ID~@/$ENV{TENANT_ID}/' /etc/focus/local_settings.py
+    EOH
+end
 
 log("Start services"){level :debug}
 service "memcached" do 
