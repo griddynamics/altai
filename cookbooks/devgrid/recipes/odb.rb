@@ -18,7 +18,7 @@ log("Start to install odb")
 #%w( java-1.6.0-openjdk odb ).each do |odb_pkg| 
 #    package odb_pkg
 #end
-package java-1.6.0-openjdk
+package "java-1.6.0-openjdk"
 execute "install odb" do
     command "yum --nogpgcheck -y install odb"
 end
