@@ -37,7 +37,7 @@ bash "setup_root_password" do
     service mysqld stop
     mysqld_safe --skip-grant-tables --skip-networking &
     pid=$!
-    sleep 1
+    sleep 60
     mysql -u root -e "UPDATE mysql.user SET Password=PASSWORD('$PASSWD') WHERE User='root'"
     kill `cat /var/run/mysqld/mysqld.pid`
     wait $pid
