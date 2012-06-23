@@ -35,13 +35,11 @@ bash "setup_root_password" do
     environment ( {'PASSWD' => node["mysql-root-password"]} )
     code <<-EOH
     service mysqld stop
-    mysqld_safe --skip-grant-tables --skip-networking &
-    pid=$!
-    sleep 60
-    mysql -u root -e "UPDATE mysql.user SET Password=PASSWORD('$PASSWD') WHERE User='root'"
-    kill `cat /var/run/mysqld/mysqld.pid`
-    wait $pid
+    perl -i.bak -pe 's/(\[mysqld\])/\1\nskip-grant-tables\nskip-networking/' /etc/my.cnf
     service mysqld start
+    mysql -u root -e "UPDATE mysql.user SET Password=PASSWORD('$PASSWD') WHERE User='root'"
+    mv /etc/my.cnf{.bak,}
+    service mysqld restart
     EOH
 end
 
