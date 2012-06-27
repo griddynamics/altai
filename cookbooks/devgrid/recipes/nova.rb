@@ -35,6 +35,11 @@ mysql_create_database "nova" do
     password node["mysql-nova-password"]
 end
 
+mysql_create_database "dns" do
+    user :dns
+    password node["mysql-dns-password"]
+end
+
 
 template "/etc/nova/nova.conf" do
     source "nova/nova.conf.erb"

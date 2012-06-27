@@ -5,6 +5,6 @@
     "admin-login-password": "secrete",
     "master-ip-private": "10.0.100.1",
     "master-ip-public": "10.0.80.1",
-    "projects-interface": "eth2"
+    "projects-interface": "eth2",
     "dns-zone": "dev-cloud.example.com"
 }

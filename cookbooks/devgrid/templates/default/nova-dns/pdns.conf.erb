@@ -1,0 +1,6 @@
+launch=gmysql
+gmysql-host=<%= node['master-ip-private'] %>
+gmysql-dbname=dns
+gmysql-user=dns
+gmysql-password=<%= node["mysql-dns-password"] %>
+local-address=<%= node['master-ip-public'] %>
