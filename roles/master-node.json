@@ -6,6 +6,7 @@
     "description": "DevGrid Master Server Role",
     "chef_type": "role",
     "run_list": [
+	"devgrid::iptables", 
 	"devgrid::repos", 
 	"devgrid::rabbit", 
 	"devgrid::mysql", 
