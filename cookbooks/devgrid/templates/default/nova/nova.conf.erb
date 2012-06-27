@@ -65,8 +65,8 @@ iscsi_helper = tgtadm
 #Nova-DNS
 dns_sql_connection = mysql://dns:<%= node["mysql-dns-password"] %>@<%= node["master-ip-private"] %>/dns
 dns_default_ttl = 7200
-dns_soa_primary = ns1.<%= node[dns-zone] %>
-dns_soa_email = hostmaster.<%= node[dns-zone] %>
-dns_zone = <%= node[dns-zone] %>
+dns_soa_primary = ns1.<%= node["dns-zone"] %>
+dns_soa_email = hostmaster.<%= node["dns-zone"] %>
+dns_zone = <%= node["dns-zone"] %>
 dns_ns = ns1:<%= node["master-ip-public"] %>
 dns_ptr = true
