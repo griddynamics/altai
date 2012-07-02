@@ -67,11 +67,12 @@ end
     end
 end
 
-try "set ip_forward" do
-    code <<-EOH
-    perl -i -pe 's/(net.ipv4.ip_forward\\s*=)\\s*0/\\1 1/' /etc/sysctl.conf
-    sysctl -p
-    EOH
-end
+#try "set ip_forward" do
+#    code <<-EOH
+#    #FIXME - this doesn't work in Jenkins testbed
+#    #echo "net.ipv4.ip_forward = 1" > /etc/sysctl.d/ip_forward
+#    #sysctl -p
+#    EOH
+#end
 
 log("nova was succesfully installed")
