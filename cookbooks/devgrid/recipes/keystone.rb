@@ -23,6 +23,8 @@ node.set["keystone-magic-token"] = UUID.new().generate()
 %w(openstack-keystone-essex python-keystoneclient-essex).each do |package_name|
     package package_name  
 end
+#FIXME - should be req of keystone-essex ? 
+package "python-simplejson"
 
 mysql_create_database "keystone" do
     user :keystone
@@ -54,7 +56,7 @@ service "keystone" do
 end
 
 log("Add admin, tenant and role")
-bash "Add admin tenant, user and role" do
+try "Add admin tenant, user and role" do
     environment ( {
 	'KCMD' => "keystone  --token=#{node["keystone-magic-token"]} --endpoint http://localhost:35357/v2.0",
 	'LOGIN' => node["admin-login-name"],
@@ -64,10 +66,25 @@ bash "Add admin tenant, user and role" do
     function get_id () { echo `$@ | awk '/ id / { print $4 }'`; }
     sleep 2
     ADMIN_ROLE=`get_id $KCMD role-create --name admin`
+    if [-n "$ADMIN_ROLE"]
+    then
+	echo "Can't create admin role"
+	exit 100
+    fi
     echo "Admin role: $ADMIN_ROLE"
     MEMBER_ROLE=`get_id $KCMD role-create --name member`
+    if [-n "$MEMBER_ROLE"]
+    then
+	echo "Can't create member role user"
+	exit 100
+    fi
     echo "Member role: $MEMBER_ROLE"
     TENANT=`get_id $KCMD tenant-create --name=systenant`
+    if [-n "$TENANT"]
+    then
+	echo "Can't create systenant"
+	exit 100
+    fi
     echo "Tenant id: $TENANT"
     # will be used later in focus receipt
     echo "$TENANT" > /tmp/systenant.id

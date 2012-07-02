@@ -1,5 +1,6 @@
+# coding=utf-8
 RELATIVE_TO_API_HOURS_SHIFT = 0
-DEBUG = True
+DEBUG = False
 
 UPLOADS_DEFAULT_DEST = '/var/tmp/focus-uploads/'
 DEFAULT_APP_PORT = 8080
@@ -15,12 +16,11 @@ NEO4J_API_URL = 'http://<%= node["master-ip-private"] %>:3536/v1'
 
 KEYSTONE_CONF = {
     'auth_uri': 'http://<%= node["master-ip-private"] %>:5000/v2.0/',
-    'admin_tenant_name': 'systenant',
-    'admin_user': '<%= node["admin-login-name"] %>',
-    'admin_password': '<%= node["admin-login-password"] %>',
-    'admin_tenant_id': '@~TENANT_ID~@'
+    'tenant_name': 'systenant',
+    'username': '<%= node["admin-login-name"] %>',
+    'password': '<%= node["admin-login-password"] %>',
 }
-DEFAULT_TENANT_ID = KEYSTONE_CONF['admin_tenant_id']
+DEFAULT_TENANT_ID = '@~TENANT_ID~@'
 
 MAIL_SERVER = '<%= node["mail-server"] %>'
 MAIL_PORT = 25

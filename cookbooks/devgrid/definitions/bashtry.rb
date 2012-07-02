@@ -1,4 +1,3 @@
-#!/bin/bash
 #    Altai Private Cloud 
 #    Copyright (C) GridDynamics Openstack Core Team, GridDynamics
 #
@@ -13,24 +12,29 @@
 #    GNU Lesser General Public License for more details.
 #
 #    You should have received a copy of the GNU General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-DIR=$(readlink -f $(dirname $0))
+define :try do
+  bash "try #{params[:name]}" do
+    environment params[:environment]
+    code <<-EOH
+        CODE() {
+	    #{params[:code]}
+	}
 
-function usage() {
-    echo "Usage:   $0  [master|compute|full]"
-    echo "      master  - install controlling node"
-    echo "      compute - install compute node"
-    echo "      full    - install controlling node and start nova-compute on it"
-    exit 1
-}
-
-if [[ $# -ne 1 || ("$1" != 'master' && "$1" != 'compute' && "$1" != "full") ]]
-then
-    usage
-fi
-
-receipt="${1}-node.json"
-./_install.sh "$DIR" "$1" "$receipt" 2>&1 | tee -a $DIR/install.log
-
-exit ${PIPESTATUS[0]} 
+	trace() { trap 'ERR=$?' ERR; set -Ex; $1 2>&1; set +Ex; trap ERR; } 2>&-
+	try() {
+	    local output=$( trace $1 )
+	    if [[ "$output" =~ "ERR=" ]] 
+	    then
+		echo -e "\e[1m\e[31m ERR \e[37m$1\e[0m"
+		exitcode=`echo "$output" | perl -ne 'print /ERR=(.*)/'`   
+		echo "$output" | sed $'s/.*ERR=\(.*\)/\a\033[36mEXIT CODE: \\1\033[0m/g'
+		exit $exitcode
+	    else
+		echo "$output" >> $ALTAI_LOG
+	    fi
+	}
+	try CODE
+    EOH
+    end
+end

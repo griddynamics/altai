@@ -60,11 +60,11 @@ if response.status_code > 300 or response.status_code < 200:
 EOH
 end
 
-bash "update tenant_id in config file with real id" do
+try "update tenant_id in config file with real id" do
     code <<-EOH
     TENANT_ID=`cat /tmp/systenant.id`
     echo "Systenant id: $TENANT_ID"
-    rm /tmp/sysenant.id
+    rm /tmp/systenant.id
     perl -i -pe 's/@~TENANT_ID~@/$ENV{TENANT_ID}/' /etc/focus/local_settings.py
     EOH
 end

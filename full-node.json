@@ -1,0 +1,15 @@
+{
+    "run_list": [ "role[master-node]", "role[compute-node]" ],
+    "mysql-root-password": "4D4B9D7E-3094-419C-9D8C-88F94E3D2801",
+    "mysql-nova-password": "AFBD6ED7-88DC-4DF0-BF91-52BBF0145059",
+    "admin-login-name": "admin",
+    "admin-login-email": "dev-cloud-admin@example.com",
+    "admin-login-password": "secrete",
+    "projects-interface": "eth0",
+    "master-ip-private": "127.0.0.1",
+    "master-ip-public": "10.0.2.15",
+    "dns-zone": "dev-cloud.example.com",
+    "mail-server": ""
+    "mail-sender-name": "robot"
+    "mail-sender-email": "robot@dev-cloud.example.com"
+}

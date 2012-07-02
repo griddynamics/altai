@@ -41,6 +41,7 @@ template "/etc/glance/glance-api-paste.ini" do
     group "nobody"
 end
 
+#TODO bind registry to 127.0.0.1 only
 template "/etc/glance/glance-registry.conf" do
     source "glance/glance-registry.conf.erb"
     mode 00600

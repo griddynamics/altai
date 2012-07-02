@@ -31,11 +31,11 @@ template "/etc/my.cnf" do
 end
 
 log("Setup root user"){level :debug}
-bash "setup_root_password" do
+try "setup_root_password" do
     environment ( {'PASSWD' => node["mysql-root-password"]} )
     code <<-EOH
     service mysqld stop
-    perl -i.bak -pe 's/(\[mysqld\])/\1\nskip-grant-tables\nskip-networking/' /etc/my.cnf
+    perl -i.bak -pe 's/(\\[mysqld\\])/\\1\\nskip-grant-tables\\nskip-networking/' /etc/my.cnf
     service mysqld start
     mysql -u root -e "UPDATE mysql.user SET Password=PASSWORD('$PASSWD') WHERE User='root'"
     mv /etc/my.cnf{.bak,}
