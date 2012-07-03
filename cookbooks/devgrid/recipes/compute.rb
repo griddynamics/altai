@@ -19,7 +19,8 @@ require "uuid"
 
 log("Start to install nova-compute")
 
-%w( ntp dbus openstack-nova-essex-compute ).each do |package_name|
+#FIXME without kernel won't work guestfs
+%w( ntp dbus openstack-nova-essex-compute kernel ).each do |package_name|
     package package_name 
 end
 

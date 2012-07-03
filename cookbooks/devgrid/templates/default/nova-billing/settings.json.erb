@@ -1,6 +1,6 @@
 {
     "control_exchange": "nova", 
-    "heart_db_url": "mysql://billing:<%= node["mysql-billing-password"] %>@<%= node['master-ip-private'] %>/billing",
+    "heart_db_uri": "mysql://billing:<%= node["mysql-billing-password"] %>@<%= node['master-ip-private'] %>/billing",
     "host": "0.0.0.0", 
     "keystone_conf": {
         "auth_uri": "http://<%= node["master-ip-public"] %>:5000/", 

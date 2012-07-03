@@ -26,8 +26,8 @@ logging_debug_format_suffix =
 # NETWORK
 dhcpbridge_flagfile = /etc/nova/nova.conf
 dhcpbridge = /usr/bin/nova-dhcpbridge
-public_interface = eth1
-vlan_interface = eth1
+public_interface = <%= node["projects-interface"] %>
+vlan_interface = <%= node["projects-interface"] %> 
 
 
 # COMPUTE
