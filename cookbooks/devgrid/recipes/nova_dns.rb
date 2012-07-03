@@ -29,7 +29,7 @@ end
 
 #TODO check correct perms
 template "/etc/nova-dns/dns-api-paste.ini" do
-    source "nova-dns/dns-api-paste.ini"
+    source "nova-dns/dns-api-paste.ini.erb"
     mode 00644
     owner "root"
     group "root"
@@ -42,7 +42,7 @@ template "/etc/pdns/pdns.conf" do
 end
 
 log("Start services"){level :debug}
-%w( pdns nova-dns ).each do |service|
+%w( nova-dns pdns ).each do |service|
     service service do
         action [:enable, :restart]
 	ignore_failure true

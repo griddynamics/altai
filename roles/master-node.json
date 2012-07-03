@@ -15,6 +15,7 @@
 	"devgrid::glance", 
 	"devgrid::odb", 
 	"devgrid::nova_billing", 
+    "devgrid::nova_dns",
 	"devgrid::focus" 
     ]
 }

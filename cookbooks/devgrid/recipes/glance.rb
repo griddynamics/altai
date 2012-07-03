@@ -16,7 +16,8 @@
 require "rubygems"
 require "uuid"
 
-
+# FIXME this receipt works if at _after_ nova - looks like unresolved deps
+#	in packets
 log("Start to install glance")
 node.set["mysql-glance-password"] = UUID.new().generate()
 
