@@ -66,21 +66,21 @@ try "Add admin tenant, user and role" do
     function get_id () { echo `$@ | awk '/ id / { print $4 }'`; }
     sleep 2
     ADMIN_ROLE=`get_id $KCMD role-create --name admin`
-    if [-n "$ADMIN_ROLE"]
+    if [ -n "$ADMIN_ROLE" ]
     then
 	echo "Can't create admin role"
 	exit 100
     fi
     echo "Admin role: $ADMIN_ROLE"
     MEMBER_ROLE=`get_id $KCMD role-create --name member`
-    if [-n "$MEMBER_ROLE"]
+    if [ -n "$MEMBER_ROLE" ]
     then
 	echo "Can't create member role user"
 	exit 100
     fi
     echo "Member role: $MEMBER_ROLE"
     TENANT=`get_id $KCMD tenant-create --name=systenant`
-    if [-n "$TENANT"]
+    if [ -n "$TENANT" ]
     then
 	echo "Can't create systenant"
 	exit 100

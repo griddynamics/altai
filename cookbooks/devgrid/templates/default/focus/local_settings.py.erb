@@ -8,7 +8,7 @@ DEFAULT_APP_PORT = 8080
 
 RO_DATABASE_URI = 'mysql://keystone:<%= node["mysql-keystone-password"] %>@<%= node["master-ip-private"] %>/keystone'
 RW_DATABASE_URI = 'mysql://keystone:<%= node["mysql-keystone-password"] %>@<%= node["master-ip-private"] %>/keystone'
-INVITATIONS_DATABASE_URI = 'mysql://nova:<%= node["mysql-focus-password"] %>@<%= node["master-ip-private"] %>/focus-invitations'
+INVITATIONS_DATABASE_URI = 'mysql://focus:<%= node["mysql-focus-password"] %>@<%= node["master-ip-private"] %>/focus'
 NOVA_RO_DATABASE_URI = 'mysql://nova:<%= node["mysql-nova-password"] %>@<%= node["master-ip-private"] %>/nova'
 NOVA_RW_DATABASE_URI = 'mysql://nova:<%= node["mysql-nova-password"] %>@<%= node["master-ip-private"] %>/nova'
 NEO4J_API_URL = 'http://<%= node["master-ip-private"] %>:3536/v1'

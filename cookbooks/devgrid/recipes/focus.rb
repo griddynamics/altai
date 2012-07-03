@@ -62,7 +62,7 @@ end
 
 try "update tenant_id in config file with real id" do
     code <<-EOH
-    TENANT_ID=`cat /tmp/systenant.id`
+    export TENANT_ID=`cat /tmp/systenant.id`
     echo "Systenant id: $TENANT_ID"
     rm /tmp/systenant.id
     perl -i -pe 's/@~TENANT_ID~@/$ENV{TENANT_ID}/' /etc/focus/local_settings.py
