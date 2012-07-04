@@ -13,6 +13,10 @@
 #
 #    You should have received a copy of the GNU General Public License
 
+#FIXME authorization to host based on public ip will fail if this ip 
+#      associated with domain name (for ex via /etc/hosts).
+#      In this case mysqld will resolve ip in dnsname and will try to 
+#      find authorization info for this dnsname instead of ip.
 
 log("Start to install mysql")
 
