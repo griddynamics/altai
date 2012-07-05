@@ -21,8 +21,8 @@ package "rabbitmq-server"
 #TODO check correct perms
 template "/etc/rabbitmq/rabbitmq-env.conf" do
     source "rabbitmq-env.conf.erb"
-    mode 00644
-    owner "root"
+    mode 00660
+    owner "rabbitmq"
     group "root"
 end
 

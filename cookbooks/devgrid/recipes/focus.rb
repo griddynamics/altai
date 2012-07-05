@@ -26,11 +26,10 @@ mysql_create_database "focus" do
     password node["mysql-focus-password"]
 end
 
-#TODO check required perms
 template "/etc/focus/local_settings.py" do
     source "focus/local_settings.py.erb"
-    mode 00644
-    owner "root"
+    mode 00660
+    owner "focus"
     group "root"
 end
 

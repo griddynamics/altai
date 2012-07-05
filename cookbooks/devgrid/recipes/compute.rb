@@ -24,7 +24,10 @@ log("Start to install nova-compute")
     package package_name 
 end
 
-# not re-write nova.conf created in 'nova' receipt
+# this will re-write config, created in nova receipt
+# and if_ can't be used, because of Chef 'feature' - 
+# it will automatically add this 'if_' to template section 
+# in nova receipt. 
 template "/etc/nova/nova.conf" do
     source "nova/nova.conf.erb"
     mode 00600

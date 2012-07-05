@@ -20,7 +20,6 @@ service "iptables" do
     action :stop
 end
 
-#TODO check correct perms
 template "/etc/sysconfig/iptables" do
     source "sysconfig/iptables.erb"
     mode 00600

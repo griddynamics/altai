@@ -24,13 +24,13 @@ mysql_create_database "billing" do
     password node["mysql-billing-password"]
 end
 
-#TODO check correct perms
 template "/etc/nova-billing/settings.json" do
     source "nova-billing/settings.json.erb"
-    mode 00644
-    owner "root"
+    mode 00660
+    owner "nova-billing"
     group "root"
 end
+
 
 log("Start services"){level :debug}
 %w( nova-billing-heart nova-billing-os-amqp).each do |service|

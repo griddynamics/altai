@@ -27,16 +27,15 @@ mysql_create_database "dns" do
     password node["mysql-dns-password"]
 end
 
-#TODO check correct perms
 template "/etc/nova-dns/dns-api-paste.ini" do
     source "nova-dns/dns-api-paste.ini.erb"
-    mode 00644
-    owner "root"
+    mode 00660
+    owner "nova"
     group "root"
 end
 template "/etc/pdns/pdns.conf" do
     source "nova-dns/pdns.conf.erb"
-    mode 00644
+    mode 00660
     owner "root"
     group "root"
 end

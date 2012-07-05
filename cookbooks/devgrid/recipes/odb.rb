@@ -26,6 +26,7 @@ end
 
 log("Apply config with binding address"){level :debug}
 #TODO check correct perms
+#TODO why odb started with root permissions
 template "/etc/odb.conf" do
     source "odb.conf.erb"
     mode 00644
