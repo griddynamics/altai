@@ -23,13 +23,25 @@ case node["platform"]
             end
         end
 	
-        execute "add_altai_repository" do
-            command "rpm -Uhv #{node[:altai][:rpm_url]}"
-            not_if do
-                File.exists?("/etc/yum.repos.d/altai.repo") 
-            end
-        end
-	
+	if ( node[:altai][:rpm_url] =~ /\.rpm$/i )
+	    execute "add altai_repository" do
+		command "rpm -Uhv #{node[:altai][:rpm_url]}"
+		not_if do
+		    File.exists?("/etc/yum.repos.d/altai.repo") 
+		end
+	    end
+	else
+	    template "/etc/yum.repos.d/altai.repo" do
+		source "altai.repo.erb"
+		mode 00644
+		owner "root"
+		group "root"
+		not_if do
+		    File.exists?("/etc/yum.repos.d/altai.repo") 
+		end
+   	    end   
+	end
+
 	execute "rebuild yum cache" do 
 	    command "yum -q makecache"
 	end
