@@ -31,6 +31,18 @@ template "/etc/nova-billing/settings.json" do
     group "root"
 end
 
+bash "Update glance to use nova-billing"
+    cwd "/etc/glance"
+    code <<-EOH
+    if [ ! -f glance-api-paste.ini ]; then
+	echo "Glance not installed"
+	exit 100
+    fi
+    echo -e "\n[filter:billing]\npaste.filter_factory = nova_billing.os_glance:GlanceBillingFilter.factory" >> glance-api-paste.ini
+    sed -i 's/context /context billing /' glance-api-paste.ini
+    EOH
+    not_if "grep 'filter:billing' /etc/glance/glance-api-paste.ini"
+end
 
 log("Start services"){level :debug}
 %w( nova-billing-heart nova-billing-os-amqp).each do |service|
