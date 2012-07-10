@@ -31,7 +31,7 @@ template "/etc/nova-billing/settings.json" do
     group "root"
 end
 
-bash "Update glance to use nova-billing"
+bash "Update glance to use nova-billing" do
     cwd "/etc/glance"
     code <<-EOH
     if [ ! -f glance-api-paste.ini ]; then
