@@ -45,16 +45,18 @@ python "grant access for admin user in ODB" do
 	"IP" => node["master-ip-private"] })
     code <<-EOH
 from os import environ as env
-import hashlib, base64, requests, json
+import hashlib, base64, httplib2, json
     
 m = hashlib.md5()
 m.update(env["PASSWD"])
 p = "{MD5}%s" % base64.standard_b64encode(m.digest())
-response = requests.post(
+h = httplib2.Http()
+response, content = h.request(
     'http://%s:3536/v1/users' % (env["IP"]), 
-    data=json.dumps(dict(login="", email=env["EMAIL"], username=env["USER"], passwordHash=p)),
+    method='POST',
+    body=json.dumps(dict(login="", email=env["EMAIL"], username=env["USER"], passwordHash=p)),
     headers={'Content-Type': 'application/json'})
-if response.status_code > 300 or response.status_code < 200:
+if response.status > 300 or response.status < 200:
     raise Exception("ODB return status code %s" % (response.status_code))
 EOH
 end
