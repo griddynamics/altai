@@ -18,14 +18,13 @@
 DIR=$(readlink -f $(dirname $0))
 
 function usage() {
-    echo "Usage:   $0  [master|compute|full]"
+    echo "Usage:   $0  [master|compute]"
     echo "      master  - install controlling node"
     echo "      compute - install compute node"
-    echo "      full    - install controlling node and start nova-compute on it"
     exit 1
 }
 
-if [[ $# -ne 1 || ("$1" != 'master' && "$1" != 'compute' && "$1" != "full") ]]
+if [[ $# -ne 1 || ("$1" != 'master' && "$1" != 'compute') ]]
 then
     usage
 fi
