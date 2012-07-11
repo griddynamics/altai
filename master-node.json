@@ -9,9 +9,9 @@
     "master-ip-private": "127.0.0.1",
     "master-ip-public": "10.0.2.15",
     "dns-zone": "dev-cloud.example.com",
-    "mail-server": "localhost"
-    "mail-sender-name": "robot"
-    "mail-sender-email": "robot@dev-cloud.example.com"
+    "mail-server": "localhost",
+    "mail-sender-name": "robot",
+    "mail-sender-email": "robot@dev-cloud.example.com",
     "mail-smtp-username": "",
     "mail-smtp-password": "",
     "mail-smtp-tls": false
