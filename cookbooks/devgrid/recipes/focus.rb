@@ -16,6 +16,7 @@
 
 log("Start to install focus")
 
+node["mail-use-tls"] = node["mail-use-tls"] ? "True" : "False"
 node.set["mysql-focus-password"] = UUID.new().generate()
 
 package "memcached"
