@@ -26,7 +26,9 @@ log("Start to install nova-openstack")
     openstack-nova-essex-scheduler
     openstack-nova-essex-volume
     openstack-nova-essex-xvpvncproxy
-    python-novaclient-essex ntp).each do |package_name|
+    python-novaclient-essex
+    nova-networks-ext
+    ntp).each do |package_name|
     package package_name 
 end
 
