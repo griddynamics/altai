@@ -70,3 +70,6 @@ dns_soa_email = hostmaster.<%= node["dns-zone"] %>
 dns_zone = <%= node["dns-zone"] %>
 dns_ns = ns1:<%= node["master-ip-public"] %>
 dns_ptr = true
+
+osapi_compute_extension = nova.api.openstack.compute.contrib.standard_extensions
+osapi_compute_extension = nova_networks.networks.Networks
