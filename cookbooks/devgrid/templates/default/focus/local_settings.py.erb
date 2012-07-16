@@ -23,8 +23,8 @@ KEYSTONE_CONF = {
 DEFAULT_TENANT_ID = '@~TENANT_ID~@'
 
 MAIL_SERVER = '<%= node["mail-server"] %>'
-MAIL_PORT = 25
-#MAIL_USE_TLS = <%= node["mail-smtp-tls"] %>
+MAIL_PORT = <%= node["mail-smtp-port"] %> 
+MAIL_USE_TLS = <%= node["mail-smtp-tls"] %>
 MAIL_USERNAME = '<%= node["mail-smtp-username"] %>'
 MAIL_PASSWORD = '<%= node["mail-smtp-password"] %>'
 DEFAULT_MAIL_SENDER = ('<%= node["mail-sender-name"] %>', '<%= node["mail-sender-email"] %>')

@@ -14,5 +14,6 @@
     "mail-sender-email": "robot@dev-cloud.example.com",
     "mail-smtp-username": "",
     "mail-smtp-password": "",
-    "mail-smtp-tls": false
+    "mail-smtp-tls": false,
+    "mail-smtp-port": 25
 }
