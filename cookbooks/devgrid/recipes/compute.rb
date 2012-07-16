@@ -35,6 +35,9 @@ template "/etc/nova/nova.conf" do
     group "nobody"
 end
 
+execute "add qemu in kvm group" do
+    command "usermod -a -G kvm qemu"
+end
 
 %w(ntpd messagebus libvirtd nova-compute).each do |service|
     service service do
