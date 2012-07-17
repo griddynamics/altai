@@ -19,9 +19,15 @@ require "uuid"
 
 log("Start to install nova-compute")
 
-#FIXME without kernel won't work guestfs
-%w( ntp dbus openstack-nova-essex-compute kernel ).each do |package_name|
+%w( ntp dbus openstack-nova-essex-compute ).each do |package_name|
     package package_name 
+end
+
+#FIXME without kernel won't work guestfs. 
+#but in test enviroment packimage clean /boot/
+#either tune packimage or scp /boot/* later
+execute "update kernel" do
+    command "yum install -y kernel"
 end
 
 # this will re-write config, created in nova receipt
