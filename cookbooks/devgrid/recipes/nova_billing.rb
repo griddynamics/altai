@@ -24,6 +24,7 @@ mysql_create_database "billing" do
     password node["mysql-billing-password"]
 end
 
+node["config_files"].push("/etc/nova-billing/settings.json")
 template "/etc/nova-billing/settings.json" do
     source "nova-billing/settings.json.erb"
     mode 00660
@@ -45,6 +46,12 @@ bash "Update glance to use nova-billing" do
 end
 
 log("Start services"){level :debug}
+node["services"].push({
+    "name"=>"billing", 
+    "type"=>"REST json", 
+    "url"=>"http://#{node["master-ip-public"]}:8787/"
+})  
+
 %w( nova-billing-heart nova-billing-os-amqp).each do |service|
     service service do
         action [:enable, :restart]

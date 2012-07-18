@@ -6,7 +6,9 @@
     "description": "DevGrid Compute Server Role",
     "chef_type": "role",
     "run_list": [
+	"devgrid::default", 
 	"devgrid::repos", 
-	"devgrid::compute"
+	"devgrid::compute",
+    "devgrid::altai_release"
     ]
 }

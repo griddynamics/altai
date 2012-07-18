@@ -27,6 +27,7 @@ end
 log("Apply config with binding address"){level :debug}
 #TODO check correct perms
 #TODO why odb started with root permissions
+node["config_files"].push("/etc/odb.conf")
 template "/etc/odb.conf" do
     source "odb.conf.erb"
     mode 00644
@@ -43,6 +44,12 @@ log("Start odb service"){level :debug}
 #    action :start
 #end
 #TODO this works :) 
+node["services"].push({
+    "name"=>"odb", 
+    "type"=>"REST json", 
+    "url"=>"http://#{node["master-ip-private"]}:3536/"
+})  
+
 execute "start odb service" do 
     command "service odb start"
 end

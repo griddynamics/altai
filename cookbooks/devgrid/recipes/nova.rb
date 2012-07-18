@@ -43,6 +43,7 @@ mysql_create_database "dns" do
 end
 
 
+node["config_files"].push("/etc/nova/nova.conf")
 template "/etc/nova/nova.conf" do
     source "nova/nova.conf.erb"
     mode 00600
@@ -50,6 +51,7 @@ template "/etc/nova/nova.conf" do
     group "nobody"
 end
 
+node["config_files"].push("/etc/nova/api-paste.ini")
 template "/etc/nova/api-paste.ini" do
     source "nova/api-paste.ini.erb"
     mode 00600

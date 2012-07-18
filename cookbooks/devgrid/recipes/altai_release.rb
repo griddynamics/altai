@@ -13,6 +13,9 @@
 #
 #    You should have received a copy of the GNU General Public License
 
+require "json"
 
-node["services"] = []
-node["config_files"] = []
+node["git"] = ENV["GIT"]
+node["role"] = ENV["ROLE"]
+
+File.open("/etc/altai-release", "w") {|f| f.write(JSON.generate(node))}

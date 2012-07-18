@@ -6,6 +6,7 @@
     "description": "DevGrid Master Server Role",
     "chef_type": "role",
     "run_list": [
+	"devgrid::default", 
 	"devgrid::iptables", 
 	"devgrid::repos", 
 	"devgrid::rabbit", 
@@ -16,6 +17,7 @@
 	"devgrid::odb", 
 	"devgrid::nova_billing", 
     "devgrid::nova_dns",
-	"devgrid::focus" 
+	"devgrid::focus",
+    "devgrid::altai_release"
     ]
 }

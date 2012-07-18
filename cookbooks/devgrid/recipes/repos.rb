@@ -16,6 +16,7 @@
 case node["platform"]
     when "centos", "redhat", "fedora" 
 
+	node["config_files"].push("/etc/yum.repos.d/epel.repo")
         execute "add_epel_repository" do
             command "rpm -Uhv #{node[:epel][:rpm_url]}"
             not_if do
@@ -23,6 +24,7 @@ case node["platform"]
             end
         end
 	
+	node["config_files"].push("/etc/yum.repos.d/altai.repo")
 	if ( node[:altai][:rpm_url] =~ /\.rpm$/i )
 	    execute "add altai_repository" do
 		command "rpm -Uhv #{node[:altai][:rpm_url]}"

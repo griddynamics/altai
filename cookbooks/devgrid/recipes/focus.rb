@@ -27,6 +27,7 @@ mysql_create_database "focus" do
     password node["mysql-focus-password"]
 end
 
+node["config_files"].push("/etc/focus/local_settings.py")
 template "/etc/focus/local_settings.py" do
     source "focus/local_settings.py.erb"
     mode 00660
@@ -75,6 +76,12 @@ log("Start services"){level :debug}
 service "memcached" do 
     action [:enable, :restart]
 end
+
+node["services"].push({
+    "name"=>"focus", 
+    "type"=>"UI", 
+    "url"=>"http://#{node["master-ip-public"]}:8080/"
+})
 service "focus" do
     action [:enable, :restart]
 end

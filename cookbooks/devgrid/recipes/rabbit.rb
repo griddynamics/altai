@@ -18,13 +18,20 @@ log("Start to install rabbitmq")
 
 package "rabbitmq-server"
 
-#TODO check correct perms
+node["config_files"].push("/etc/rabbitmq/rabbitmq-env.conf")
 template "/etc/rabbitmq/rabbitmq-env.conf" do
     source "rabbitmq-env.conf.erb"
     mode 00660
     owner "rabbitmq"
     group "root"
 end
+
+node["services"].push({
+    "name"=>"rabbitmq", 
+    "type"=>"amqp",
+    "ip"=>node["master-ip-private"],
+    "port"=>5672
+})  
 
 service "rabbitmq-server" do
     action :restart

@@ -32,6 +32,7 @@ mysql_create_database "keystone" do
 end
 
 
+node["config_files"].push("/etc/keystone/keystone.conf")
 template "/etc/keystone/keystone.conf" do
     source "keystone/keystone.conf.erb"
     mode 00600
@@ -39,6 +40,7 @@ template "/etc/keystone/keystone.conf" do
     group "nobody"
 end
 
+node["config_files"].push("/etc/keystone/catalog.templates")
 template "/etc/keystone/catalog.templates" do
     source "keystone/catalog.templates.erb"
     mode 00600
@@ -50,6 +52,12 @@ end
 execute "sync_keystone_database" do
     command "keystone-manage db_sync"
 end
+
+node["services"].push({
+    "name"=>"keystone", 
+    "type"=>"json", 
+    "url"=>"http://#{node["master-ip-public"]}:5000/"
+})  
 
 service "keystone" do
     action :restart

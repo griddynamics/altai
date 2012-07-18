@@ -4,7 +4,7 @@ log () {
 } 
 
 DIR=$1
-role=$2
+export ROLE=$2
 receipt=$3
 export ALTAI_LOG=$DIR/install.log
 
@@ -14,10 +14,10 @@ cookbook_path "$DIR/cookbooks"
 role_path "$DIR/roles"
 EOF
 
-(cd $DIR
-GIT=$(git log HEAD | head -n1 | awk '{print $2}')
-echo "DevGrig $role ($GIT)" > /etc/devgrid-release 
-)
+export GIT=`git log --format=%H -n 1`
+
+log "Altai release"
+git log -n 1
 
 log "update system"
 #yum clean all
@@ -33,6 +33,6 @@ log "install uuid"
 gem install --no-rdoc --no-ri uuid >> $ALTAI_LOG
 
 log "run cookbook"
-chef-solo -c solo.rb -j "$receipt" -N "$role"
+chef-solo -c solo.rb -j "$receipt" -N "$ROLE"
 
 

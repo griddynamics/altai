@@ -34,6 +34,7 @@ end
 # and if_ can't be used, because of Chef 'feature' - 
 # it will automatically add this 'if_' to template section 
 # in nova receipt. 
+node["config_files"].push("/etc/nova/nova.conf")
 template "/etc/nova/nova.conf" do
     source "nova/nova.conf.erb"
     mode 00600
@@ -45,6 +46,7 @@ execute "add qemu in kvm group" do
     command "usermod -a -G kvm qemu"
 end
 
+node["services"].push({"name"=>"nova_compute", "type"=>"amqp"})
 %w(ntpd messagebus libvirtd nova-compute).each do |service|
     service service do
 	action [:enable, :restart]

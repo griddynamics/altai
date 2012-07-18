@@ -20,6 +20,7 @@ service "iptables" do
     action :stop
 end
 
+node["config_files"].push("/etc/sysconfig/iptables")
 template "/etc/sysconfig/iptables" do
     source "sysconfig/iptables.erb"
     mode 00600

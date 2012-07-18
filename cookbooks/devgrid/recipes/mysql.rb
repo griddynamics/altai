@@ -27,6 +27,7 @@ log("Start to install mysql")
 end
 
 log("Apply config with binding address"){level :debug}
+node["config_files"].push("/etc/my.cnf")
 template "/etc/my.cnf" do
     source "my.cnf.erb"
     mode 00644
@@ -35,6 +36,13 @@ template "/etc/my.cnf" do
 end
 
 log("Setup root user"){level :debug}
+node["services"].push({
+    "name"=>"mysql", 
+    "type"=>"mysql", 
+    "ip"=>node["master-private-ip"],
+    "port"=>3306
+})  
+
 try "setup_root_password" do
     environment ( {'PASSWD' => node["mysql-root-password"]} )
     code <<-EOH

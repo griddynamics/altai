@@ -28,13 +28,14 @@ mysql_create_database "glance" do
     password node["mysql-glance-password"]
 end
 
-
+node["config_files"].push("/etc/glance/glance-api.conf")
 template "/etc/glance/glance-api.conf" do
     source "glance/glance-api.conf.erb"
     mode 00600
     owner "glance"
     group "nobody"
 end
+node["config_files"].push("/etc/glance/glance-api-paste.ini")
 template "/etc/glance/glance-api-paste.ini" do
     source "glance/glance-api-paste.ini.erb"
     mode 00600
@@ -43,12 +44,14 @@ template "/etc/glance/glance-api-paste.ini" do
 end
 
 #TODO bind registry to 127.0.0.1 only
+node["config_files"].push("/etc/glance/glance-registry.conf")
 template "/etc/glance/glance-registry.conf" do
     source "glance/glance-registry.conf.erb"
     mode 00600
     owner "glance"
     group "nobody"
 end
+node["config_files"].push("/etc/glance/glance-registry-paste.ini")
 template "/etc/glance/glance-registry-paste.ini" do
     source "glance/glance-registry-paste.ini.erb"
     mode 00600
@@ -56,6 +59,12 @@ template "/etc/glance/glance-registry-paste.ini" do
     group "nobody"
 end
 
+
+node["services"].push({
+    "name"=>"glance-api", 
+    "type"=>"json", 
+    "url"=>"http://#{node["master-ip-public"]}:9292/"
+})  
 
 %w(glance-api glance-registry).each do |service|
     service service do

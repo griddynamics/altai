@@ -27,12 +27,14 @@ mysql_create_database "dns" do
     password node["mysql-dns-password"]
 end
 
+node["config_files"].push("/etc/nova-dns/dns-api-paste.ini")
 template "/etc/nova-dns/dns-api-paste.ini" do
     source "nova-dns/dns-api-paste.ini.erb"
     mode 00660
     owner "nova"
     group "root"
 end
+node["config_files"].push("/etc/pdns/pdns.conf")
 template "/etc/pdns/pdns.conf" do
     source "nova-dns/pdns.conf.erb"
     mode 00660
@@ -41,6 +43,18 @@ template "/etc/pdns/pdns.conf" do
 end
 
 log("Start services"){level :debug}
+node["services"].push({
+    "name"=>"PowerDNS", 
+    "type"=>"dns",
+    "ip"=>node["master-ip-public"],
+    "port"=>53
+})  
+node["services"].push({
+    "name"=>"nova_dns", 
+    "type"=>"REST json", 
+    "url"=>"http://#{node["master-ip-public"]}:15353/"
+})  
+
 %w( nova-dns pdns ).each do |service|
     service service do
         action [:enable, :restart]
