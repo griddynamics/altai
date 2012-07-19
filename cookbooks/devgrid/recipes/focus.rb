@@ -82,8 +82,15 @@ node["services"].push({
     "type"=>"UI", 
     "url"=>"http://#{node["master-ip-public"]}:8080/"
 })
-service "focus" do
-    action [:enable, :restart]
+
+execute "create uploads dir" do
+    command "mkdir -p -m 777 /var/lib/focus/uploads/files/"
+end
+
+%w( nginx focus ).each do |service|
+    service service do
+        action [:enable, :restart]
+    end
 end
 
 log("focus was succesfully installed")
