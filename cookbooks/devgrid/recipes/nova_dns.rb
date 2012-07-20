@@ -55,11 +55,11 @@ node["services"].push({
     "url"=>"http://#{node["master-ip-public"]}:15353/"
 })  
 
-%w( nova-dns pdns ).each do |service|
-    service service do
-        action [:enable, :restart]
-	ignore_failure true
-    end
+try "Start nova-dns, pdns services" do
+    code <<-EOH
+    service nova-dns restart
+    service pdns restart
+    EOH
 end
 
 log("nova-dns was succesfully installed")

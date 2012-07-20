@@ -39,7 +39,7 @@ log("Setup root user"){level :debug}
 node["services"].push({
     "name"=>"mysql", 
     "type"=>"mysql", 
-    "ip"=>node["master-private-ip"],
+    "ip"=>node["master-ip-private"],
     "port"=>3306
 })  
 
