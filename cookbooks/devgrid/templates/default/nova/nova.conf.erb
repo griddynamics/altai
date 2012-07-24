@@ -12,7 +12,7 @@ sql_connection = mysql://nova:<%= node["mysql-nova-password"] %>@<%= node["maste
 scheduler_driver = nova.scheduler.simple.SimpleScheduler
 image_service = nova.image.glance.GlanceImageService
 network_manager = nova.network.manager.VlanManager
-multi_host = true
+multi_host = false 
 connection_type = libvirt
 
 # LOG
@@ -37,7 +37,6 @@ resume_guests_state_on_host_boot = true
 libvirt_inject_password = true
 libvirt_xml_template = /usr/share/nova/libvirt.xml.template
 injected_network_template = /usr/share/nova/interfaces.template
-libvirt_inject_password = true
 # true by default
 use_cow_images = true
 # by default the same as source image
