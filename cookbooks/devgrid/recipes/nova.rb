@@ -25,8 +25,9 @@ log("Start to install nova-openstack")
     openstack-nova-essex-objectstore 
     openstack-nova-essex-scheduler
     openstack-nova-essex-volume
-    openstack-nova-essex-xvpvncproxy
     python-novaclient-essex
+    openstack-nova-essex-consoleauth
+    openstack-noVNC
     nova-networks-ext
     ntp).each do |package_name|
     package package_name 
@@ -65,7 +66,7 @@ execute "db sync" do
 end
 
 %w(ntpd nova-api nova-network nova-scheduler nova-objectstore 
-    nova-xvpvncproxy).each do |service|
+    nova-consoleauth nova-novncproxy).each do |service|
     service service do
 	action [:enable, :restart]
     end
