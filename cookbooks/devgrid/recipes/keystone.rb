@@ -60,7 +60,7 @@ node["services"].push({
 })  
 
 service "keystone" do
-    action :restart
+    action [:enable, :restart]
 end
 
 log("Add admin, tenant and role")

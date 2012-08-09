@@ -54,6 +54,10 @@ execute "start odb service" do
     command "service odb start"
 end
 
+execute "autostart odb service" do 
+    command "chkconfig odb on"
+end
+
 
 log("Odb was succesfully installed")
 

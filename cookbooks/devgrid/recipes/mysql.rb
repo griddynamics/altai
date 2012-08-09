@@ -52,6 +52,7 @@ try "setup_root_password" do
     mysql -u root -e "UPDATE mysql.user SET Password=PASSWORD('$PASSWD') WHERE User='root'"
     mv /etc/my.cnf{.bak,}
     service mysqld restart
+    chkconfig mysqld on
     EOH
 end
 

@@ -59,6 +59,8 @@ try "Start nova-dns, pdns services" do
     code <<-EOH
     service nova-dns restart
     service pdns restart
+    chkconfig nova-dns on
+    chkconfig pdns on
     EOH
 end
 

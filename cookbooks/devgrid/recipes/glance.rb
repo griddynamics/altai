@@ -68,7 +68,7 @@ node["services"].push({
 
 %w(glance-api glance-registry).each do |service|
     service service do
-	action :restart
+	action [:enable, :restart]
     end
 end
 

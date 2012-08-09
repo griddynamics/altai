@@ -29,7 +29,7 @@ template "/etc/sysconfig/iptables" do
 end
 
 service "iptables" do
-    action :start
+    action [:enable, :start]
 end
 
 log("Firewall was succesfully configured")

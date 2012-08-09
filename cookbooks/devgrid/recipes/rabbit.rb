@@ -34,7 +34,7 @@ node["services"].push({
 })  
 
 service "rabbitmq-server" do
-    action :restart
+    action [:restart, :enable]
 end
 
 log("Rabbitmq was succesfully installed")
