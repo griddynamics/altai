@@ -13,11 +13,6 @@
 #
 #    You should have received a copy of the GNU General Public License
 
-#FIXME authorization to host based on public ip will fail if this ip 
-#      associated with domain name (for ex via /etc/hosts).
-#      In this case mysqld will resolve ip in dnsname and will try to 
-#      find authorization info for this dnsname instead of ip.
-
 log("Start to install mysql")
 
 %w( mysql-server MySQL-python ).each do |package_name|
@@ -43,6 +38,16 @@ node["services"].push({
     "port"=>3306
 })  
 
+# - in default setup there are exists authorization record for user ""@hostname.
+# - Later in setup we add access to users username@%. 
+# - During auth procedure, mysql select all records from "user" database,
+# relevant for given connection, sort it and take _FIRST_ record. If it
+# won't success, "connection refused" retruned.
+# - so if user try to login from the same host, record for gust user
+# becomes first
+#
+# To fix this issue, guest users completely removed.
+
 try "setup_root_password" do
     environment ( {'PASSWD' => node["mysql-root-password"]} )
     code <<-EOH
@@ -50,6 +55,8 @@ try "setup_root_password" do
     perl -i.bak -pe 's/(\\[mysqld\\])/\\1\\nskip-grant-tables\\nskip-networking/' /etc/my.cnf
     service mysqld start
     mysql -u root -e "UPDATE mysql.user SET Password=PASSWORD('$PASSWD') WHERE User='root'"
+    mysql -u root -e "UPDATE mysql.user SET Password=PASSWORD('$PASSWD') WHERE User='root'"
+    mysql -u root -e "DELETE FROM mysql.user WHERE user=''"
     mv /etc/my.cnf{.bak,}
     service mysqld restart
     chkconfig mysqld on
