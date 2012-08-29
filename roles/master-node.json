@@ -19,6 +19,7 @@
 	"devgrid::nova_billing", 
     "devgrid::nova_dns",
 	"devgrid::focus",
+    "devgrid::zabbix_notifier",
     "devgrid::altai_release"
     ]
 }

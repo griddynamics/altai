@@ -17,7 +17,7 @@
 log("Start to install zabbix-notifier")
 
 
-package zabbix_notifier 
+package "zabbix-notifier"
 
 try "upload zabbix-notifier db" do 
     code <<-EOH
