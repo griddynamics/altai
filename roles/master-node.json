@@ -11,6 +11,7 @@
 	"devgrid::repos", 
 	"devgrid::rabbit", 
 	"devgrid::mysql", 
+    "devgrid::zabbix",
 	"devgrid::keystone", 
 	"devgrid::nova", 
 	"devgrid::glance", 
