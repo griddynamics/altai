@@ -14,6 +14,9 @@
 #    You should have received a copy of the GNU General Public License
 
 
+require "rubygems"
+require "uuid"
+
 log("Start to install zabbix")
 
 
@@ -32,7 +35,7 @@ end
 try "upload zabbix db" do 
     code <<-EOH
     for script in /usr/share/doc/zabbix-server-mysql-*/database/mysql/{schema,images,data}.sql; do 
-	mysql -u zabbix  -p#{node['mysql-zabbix-password']} < $script
+	mysql -u zabbix  -p#{node['mysql-zabbix-password']} zabbix < $script
     done
     EOH
 end
