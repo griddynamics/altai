@@ -56,7 +56,7 @@ end
 
 # apache used for zabbix API. Let's put Apache on internal ip on port 81
 template "/etc/httpd/conf/httpd.conf" do 
-    source ""
+    source "httpd/conf/httpd.conf.erb"
     mode 00644
     owner "root"
     group "root"
