@@ -54,6 +54,13 @@ template "/etc/zabbix/web/zabbix.conf.php" do
     group "apache"
 end
 
+template "/usr/share/zabbix/.htaccess" do
+    source "zabbix/web/.htaccess.erb"
+    mode 00640
+    owner "zabbix"
+    group "apache"
+end
+
 # apache used for zabbix API. Let's put Apache on internal ip on port 81
 template "/etc/httpd/conf/httpd.conf" do 
     source "httpd/conf/httpd.conf.erb"

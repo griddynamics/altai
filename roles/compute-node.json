@@ -8,6 +8,7 @@
     "run_list": [
 	"devgrid::default", 
 	"devgrid::repos", 
+    "devgrid::zabbix_agent",
 	"devgrid::compute",
     "devgrid::altai_release"
     ]
