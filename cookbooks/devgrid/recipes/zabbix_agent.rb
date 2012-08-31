@@ -34,7 +34,7 @@ template "/etc/zabbix/zabbix_agentd.conf" do
 end
 
 log("Start services"){level :debug}
-service "zabbix-agent" do 
+service "zabbix-agentd" do 
     action [:enable, :restart]
 end
 
