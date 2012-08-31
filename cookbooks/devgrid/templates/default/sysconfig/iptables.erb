@@ -21,7 +21,8 @@
 -A INPUT -d <%= node["master-ip-public"] %> -m state --state NEW -m tcp -p tcp --dport  5000 -m comment --comment "keystone public api" -j ACCEPT
 -A INPUT -d <%= node["master-ip-public"] %> -m state --state NEW -m tcp -p tcp --dport 35357 -m comment --comment "keystone admin API" -j ACCEPT
 -A INPUT -d <%= node["master-ip-public"] %> -m state --state NEW -m tcp -p tcp --dport    80 -m comment --comment "focus UI 80" -j ACCEPT
--A INPUT -d <%= node["master-ip-public"] %>                      -m tcp        --dport    53 -m comment --comment "power dns" -j ACCEPT
+-A INPUT -d <%= node["master-ip-public"] %>                      -p tcp        --dport    53 -m comment --comment "power dns" -j ACCEPT
+-A INPUT -d <%= node["master-ip-public"] %>                      -p udp        --dport    53 -m comment --comment "power dns" -j ACCEPT
 -A INPUT -j REJECT --reject-with icmp-host-prohibited
 -A FORWARD -j REJECT --reject-with icmp-host-prohibited
 COMMIT
