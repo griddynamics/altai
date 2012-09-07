@@ -34,9 +34,11 @@ end
 
 try "upload zabbix db" do 
     code <<-EOH
+    MYSQL=/usr/bin/mysql -u zabbix  -p#{node['mysql-zabbix-password']} zabbix 
     for script in /usr/share/doc/zabbix-server-mysql-*/database/mysql/{schema,images,data}.sql; do 
-	mysql -u zabbix  -p#{node['mysql-zabbix-password']} zabbix < $script
+	$MYSQL < $script
     done
+    $MYSQL -e 'update hosts set status=0 where status=1'
     EOH
 end
 

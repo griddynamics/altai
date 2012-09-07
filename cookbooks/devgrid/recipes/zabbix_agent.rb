@@ -19,15 +19,15 @@ log("Start to install zabbix-agent")
 
 package "zabbix-agent"
 
-template "/etc/zabbix/zabbix_agent.conf" do
-    source "zabbix/zabbix_agent.conf.erb"
+template "/etc/zabbix_agent.conf" do
+    source "zabbix_agent.conf.erb"
     mode 00640
     owner "root"
     group "zabbix"
 end
 
-template "/etc/zabbix/zabbix_agentd.conf" do
-    source "zabbix/zabbix_agentd.conf.erb"
+template "/etc/zabbix_agentd.conf" do
+    source "zabbix_agentd.conf.erb"
     mode 00640
     owner "root"
     group "zabbix"
