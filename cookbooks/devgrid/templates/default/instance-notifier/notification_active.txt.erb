@@ -1,0 +1,13 @@
+Dear user of project {{ tenant_name }}!
+
+We notify you that these servers have changed their state.
+
+{% if srv_alive %}These servers are now alive:
+{% for srv in srv_alive %}{{srv.id}} {% if srv.name %} - {{srv.name}}{% endif %}
+{% endfor %}{% endif %}
+{% if srv_dead %}These servers are not alive now:
+{% for srv in srv_dead %}{{srv.id}} {% if srv.name %} - {{srv.name}}{% endif %}
+{% endfor %}{% endif %}
+
+Sincerely,
+Instance Notification Robot

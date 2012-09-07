@@ -1,0 +1,9 @@
+Dear admin!
+
+We notify you that these servers stay in inactive state.
+
+{% for srv in srv_build %}{{srv.id}}{% if srv.name %} - {{srv.name}}{% endif %} (status: {{srv.status}})
+{% endfor %}
+
+Sincerely,
+Instance Notification Robot

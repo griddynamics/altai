@@ -28,7 +28,7 @@ log("Start to install nova-openstack")
     python-novaclient-essex
     openstack-nova-essex-consoleauth
     openstack-noVNC
-    nova-networks-ext
+    nova-networks-ext nova-fping-ext
     ntp).each do |package_name|
     package package_name 
 end

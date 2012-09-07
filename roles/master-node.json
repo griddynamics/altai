@@ -20,6 +20,7 @@
     "devgrid::nova_dns",
 	"devgrid::focus",
     "devgrid::zabbix_notifier",
+    "devgrid::instance_notifier",
     "devgrid::altai_release"
     ]
 }
