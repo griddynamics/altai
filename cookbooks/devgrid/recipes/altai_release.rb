@@ -15,7 +15,7 @@
 
 require "json"
 
-node["git"] = ENV["GIT"]
+#node["git"] = ENV["GIT"]
 node["role"] = ENV["ROLE"]
 
 File.open("/etc/altai-release", "w") {|f| f.write(JSON.generate(node))}

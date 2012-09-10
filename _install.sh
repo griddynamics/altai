@@ -14,25 +14,10 @@ cookbook_path "$DIR/cookbooks"
 role_path "$DIR/roles"
 EOF
 
-export GIT=`git log --format=%H -n 1`
-
-log "Altai release"
-git log -n 1
-
-log "update system"
-#yum clean all
-#yum -y update
-
-log "install ruby"
-yum -y install ruby ruby-devel ruby-ri ruby-rdoc ruby-static rubygems make gcc >> $ALTAI_LOG
-
-log "install chef"
-gem install --no-rdoc --no-ri chef-solr >> $ALTAI_LOG
-
-log "install uuid"
-gem install --no-rdoc --no-ri uuid >> $ALTAI_LOG
+#export GIT=`git log --format=%H -n 1`
+#log "Altai release"
+#git log -n 1
 
 log "run cookbook"
-chef-solo -c solo.rb -j "$receipt" -N "$ROLE"
-
-
+export GEM_PATH=/opt/altai-chef-gems/
+/opt/altai-chef-gems/bin/chef-solo -c solo.rb -j "$receipt" -N "$ROLE"
