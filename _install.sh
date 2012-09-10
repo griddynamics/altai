@@ -19,5 +19,6 @@ EOF
 #git log -n 1
 
 log "run cookbook"
-export GEM_PATH=/opt/altai-chef-gems/
+export GEM_HOME="/opt/altai-chef-gems/"
+export GEM_PATH="${GEM_HOME}:"
 /opt/altai-chef-gems/bin/chef-solo -c solo.rb -j "$receipt" -N "$ROLE"
