@@ -8,7 +8,6 @@
     "run_list": [
 	"devgrid::default", 
 	"devgrid::iptables", 
-	"devgrid::repos", 
 	"devgrid::rabbit", 
 	"devgrid::mysql", 
     "devgrid::zabbix",
