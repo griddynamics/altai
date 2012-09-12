@@ -1,5 +1,5 @@
 Name:             altai-installer
-Version:          0.2
+Version:          1.0
 Release:          0
 Summary:          Installer for Altai
 License:          GNU LGPL 2.1
