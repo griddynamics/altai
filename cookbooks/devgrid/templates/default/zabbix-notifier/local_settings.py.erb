@@ -1,0 +1,23 @@
+# coding=utf-8
+
+
+import datetime
+
+PERMANENT_SESSION_LIFETIME = datetime.timedelta(days=2)
+SESSION_COOKIE_NAME = "zabbix_notifier"
+SECRET_KEY = '\xc0\xdd\x1e\xff+/>3\xec\xacn\xfc\x06\x9b\x07\x8e,\xe2\xd4\x14\xe7\xbc?\xe6'
+SQLALCHEMY_DATABASE_URI = 'sqlite:////var/lib/zabbix-notifier/zabbix-notifier.sqlite'
+
+ZABBIX_CONNECTION = {
+    "server": "http://<%= node["master-ip-private"] %>:81/zabbix",
+    "user": "admin",
+    "password": "zabbix"
+}
+
+
+MAIL_SERVER = '<%= node["mail-server"] %>'
+MAIL_PORT = <%= node["mail-smtp-port"] %> 
+MAIL_USE_TLS = <%= node["mail-smtp-tls"] %>
+MAIL_USERNAME = '<%= node["mail-smtp-username"] %>'
+MAIL_PASSWORD = '<%= node["mail-smtp-password"] %>'
+DEFAULT_MAIL_SENDER = ('<%= node["mail-sender-name"] %>', '<%= node["mail-sender-email"] %>')

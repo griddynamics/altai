@@ -19,7 +19,6 @@ require "uuid"
 
 log("Start to install zabbix")
 
-
 %w( zabbix zabbix-web-mysql zabbix-server-mysql zabbix-notifier).each do |package_name|
     package package_name 
 end
@@ -38,10 +37,6 @@ try "upload zabbix db" do
     for script in /usr/share/doc/zabbix-server-mysql-*/database/mysql/{schema,images,data}.sql; do 
 	$MYSQL < $script
     done
-    $MYSQL -e 'update hosts set status=0 where status=1'
-    $MYSQL -e 'INSERT INTO `items` (`itemid`,`type`,`snmp_community`,`snmp_oid`,`hostid`,`name`,`key_`,`delay`,`history`,`trends`,`status`,`value_type`,`trapper_hosts`,`units`,`multiplier`,`delta`,`snmpv3_securityname`,`snmpv3_securitylevel`,`snmpv3_authpassphrase`,`snmpv3_privpassphrase`,`formula`,`logtimefmt`,`templateid`,`valuemapid`,`delay_flex`,`params`,`ipmi_sensor`,`data_type`,`authtype`,`username`,`password`,`publickey`,`privatekey`,`flags`,`filter`,`interfaceid`,`port`,`description`,`inventory_link`,`lifetime`) values ("23700","0","","","10001","Free disk space on /","vfs.fs.size[/,free]","60","7","365","0","3","","B","0","0","","0","","","1","",NULL,NULL,"","","","0","0","","","","","2","",NULL,"","","0","0")'
-    $MYSQL -e 'INSERT INTO `items` (`itemid`,`type`,`snmp_community`,`snmp_oid`,`hostid`,`name`,`key_`,`delay`,`history`,`trends`,`status`,`value_type`,`trapper_hosts`,`units`,`multiplier`,`delta`,`snmpv3_securityname`,`snmpv3_securitylevel`,`snmpv3_authpassphrase`,`snmpv3_privpassphrase`,`formula`,`logtimefmt`,`templateid`,`valuemapid`,`delay_flex`,`params`,`ipmi_sensor`,`data_type`,`authtype`,`username`,`password`,`publickey`,`privatekey`,`flags`,`filter`,`interfaceid`,`port`,`description`,`inventory_link`,`lifetime`) values ("23701","0","","","10081","Free memory, in %","vm.memory.size[pfree]","60","7","365","0","3","","%","0","0","","0","","","0","",NULL,NULL,"","","","0","0","","","","","0","",NULL,"","","0","30")'
-    $MYSQL -e 'INSERT INTO `items` (`itemid`,`type`,`snmp_community`,`snmp_oid`,`hostid`,`name`,`key_`,`delay`,`history`,`trends`,`status`,`value_type`,`trapper_hosts`,`units`,`multiplier`,`delta`,`snmpv3_securityname`,`snmpv3_securitylevel`,`snmpv3_authpassphrase`,`snmpv3_privpassphrase`,`formula`,`logtimefmt`,`templateid`,`valuemapid`,`delay_flex`,`params`,`ipmi_sensor`,`data_type`,`authtype`,`username`,`password`,`publickey`,`privatekey`,`flags`,`filter`,`interfaceid`,`port`,`description`,`inventory_link`,`lifetime`) values ("23702","0","","","10081","Used memory, in %","vm.memory.size[pused]","60","7","365","0","3","","%","0","0","","0","","","0","",NULL,NULL,"","","","0","0","","","","","0","",NULL,"","","0","30")'
     EOH
 end
 
@@ -83,6 +78,118 @@ log("Start services"){level :debug}
     end
 end
 
+try "zabbix configure" do
+    environment ({
+	"IP" => node["master-ip-private"] })
+    code <<-EOH
+	zabbix-client -s "http://${IP}:81/zabbix" -u Admin -p zabbix -k -e '[
+    {
+        "method": "action.create",
+        "params": {
+            "name": "Register host",
+            "eventsource": "2",
+            "evaltype": "0",
+            "status": "0",
+            "esc_period": "60",
+            "def_shortdata": "Auto registration: {HOST.HOST}",
+            "def_longdata": "Host name: {HOST.HOST}\\r\\nHost IP: {HOST.IP}\\r\\nAgent port: {HOST.PORT}",
+            "recovery_msg": "0",
+            "r_shortdata": "Auto registration: {HOST.HOST}",
+            "r_longdata": "Host name: {HOST.HOST}\\r\\nHost IP: {HOST.IP}\\r\\nAgent port: {HOST.PORT}",
+            "conditions": [],
+            "operations": [{
+                "action": "create",
+                "operationtype": "2",
+                "esc_period": "0",
+                "esc_step_from": "1",
+                "esc_step_to": "1",
+                "mediatypeid": "0",
+                "object": "0",
+                "objectid": "0",
+                "shortdata": "",
+                "longdata": ""
+            },{
+                "action": "create",
+                "operationtype": "4",
+                "esc_period": "0",
+                "esc_step_from": "1",
+                "esc_step_to": "1",
+                "mediatypeid": "0",
+                "opgroup": {
+                    "groupid": "2"
+                }
+            },{
+                "action": "create",
+                "operationtype": "6",
+                "esc_period": "0",
+                "esc_step_from": "1",
+                "esc_step_to": "1",
+                "mediatypeid": "0",
+                "optemplate": [{
+                    "templateid": "10001"
+                }]
+            }]
+        }
+    },
 
+    {
+        "method": "item.create",
+        "params": {
+            "name": "Processor load (1 min average)",
+            "key_": "system.cpu.load[,avg1]",
+            "applications": ["13", "17"],
+            "hostid": "10001", "type": "0", "value_type": 0, "delay": 60
+        }
+    },
+    {
+        "method": "item.create",
+        "params": {
+            "name": "Processor load (5 min average)",
+            "key_": "system.cpu.load[,avg5]",
+            "applications": ["13", "17"],
+            "hostid": "10001", "type": "0", "value_type": 0, "delay": 60
+        }
+    },
+    {
+        "method": "item.create",
+        "params": {
+            "name": "Processor load (15 min average)",
+            "key_": "system.cpu.load[,avg15]",
+            "applications": ["13", "17"],
+            "hostid": "10001", "type": "0", "value_type": 0, "delay": 60
+        }
+    },
 
+    {
+        "method": "item.create",
+        "params": {
+            "name": "Free disk space on /",
+            "key_": "vfs.fs.size[/,free]",
+            "applications": ["5"],
+            "hostid": "10001", "type": "0", "value_type": 0, "delay": 60
+        }
+    },
+    {
+        "method": "item.create",
+        "params": {
+            "name": "Free memory, in %",
+            "key_": "vm.memory.size[pfree]",
+            "applications": ["15"],
+            "hostid": "10001", "type": "0", "value_type": 0, "delay": 60
+        }
+    },
+    {
+        "method": "item.create",
+        "params": {
+            "name": "Used memory, in %",
+            "key_": "vm.memory.size[pused]",
+            "applications": ["15"],
+            "hostid": "10001", "type": "0", "value_type": 0, "delay": 60
+        }
+    }
+]
+'
+    EOH
+end
+	
 log("zabbix was succesfully installed")

@@ -25,8 +25,18 @@ try "upload zabbix-notifier db" do
     DB_NOTIFIER=/var/lib/zabbix-notifier/zabbix-notifier.sqlite
     sqlite3 "$DB_NOTIFIER" < /usr/share/zabbix-notifier/data.sql
     chown focus:focus "$DB_NOTIFIER"
+    chown -R focus:focus "/var/log/zabbix-notifier/"
     EOH
 end
+
+template "/etc/zabbix-notifier/local_settings.py" do
+    source "zabbix-notifier/local_settings.py.erb"
+    mode 00640
+    owner "focus"
+    group "root"
+end
+
+
 
 log("Start services"){level :debug}
 %w( zabbix-notifier ).each do |service|
