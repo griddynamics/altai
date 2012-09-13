@@ -29,8 +29,15 @@ end
 
 #TODO gunicorne with listen on internal IP only 
 node["config_files"].push("/etc/focus/local_settings.py")
+
 template "/etc/focus/local_settings.py" do
     source "focus/local_settings.py.erb"
+    mode 00660
+    owner "focus"
+    group "root"
+end
+template "/etc/focus/gunicorn_config.py" do
+    source "focus/gunicorn_config.py.erb"
     mode 00660
     owner "focus"
     group "root"
