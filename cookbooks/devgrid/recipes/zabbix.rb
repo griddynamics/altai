@@ -84,6 +84,14 @@ try "zabbix configure" do
     code <<-EOH
 	zabbix-client -s "http://${IP}:81/zabbix" -u Admin -p zabbix -k -e '[
     {
+	"method": "host.delete",
+	"params": [
+	    {
+		"hostid": "10084"
+	    }
+	]
+    },
+    {
         "method": "action.create",
         "params": {
             "name": "Register host",
