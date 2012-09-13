@@ -24,12 +24,25 @@ function usage() {
     exit 1
 }
 
+if [ $1 = '--accept-eula' ]; then 
+    shift
+else 
+    cat ./EULA.txt
+    read -p "If you agree with the terms, please click y to proceed, otherwise click n to terminate the installation process: " -r -n 1
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        exit 1
+    fi
+fi
+  
 if [[ $# -ne 1 || ("$1" != 'master' && "$1" != 'compute') ]]
 then
     usage
 fi
 
 receipt="${1}-node.json"
-./_install.sh "$DIR" "$1" "$receipt" 2>&1 | tee -a $DIR/install.log
+touch /var/log/altai-install.log
+chmod 600 /var/log/altai-install.log
+./_install.sh "$DIR" "$1" "$receipt" 2>&1 | tee -a /var/log/altai-install.log
+
 
 exit ${PIPESTATUS[0]} 

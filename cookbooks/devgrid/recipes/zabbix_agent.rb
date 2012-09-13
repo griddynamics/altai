@@ -19,6 +19,12 @@ log("Start to install zabbix-agent")
 
 package "zabbix-agent"
 
+ruby_block "reset group list" do
+  block do
+    Etc.endgrent
+  end
+end
+
 template "/etc/zabbix_agent.conf" do
     source "zabbix_agent.conf.erb"
     mode 00640
